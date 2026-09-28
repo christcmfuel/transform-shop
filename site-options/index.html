@@ -26,6 +26,7 @@ h1{margin:0;font:900 clamp(44px,7vw,104px)/.9 "Big Shoulders Display",Impact,san
 .preview{position:relative;aspect-ratio:16/10;overflow:hidden;background:#000;border-bottom:1px solid var(--line);display:block}
 .preview iframe{position:absolute;left:0;top:0;width:1280px;height:800px;border:0;transform:scale(var(--s));transform-origin:0 0;pointer-events:none}
 .preview::after{content:"";position:absolute;inset:0}
+.nopv{position:absolute;inset:0;display:grid;place-items:center;color:var(--ink-3);font:500 12px/1 "IBM Plex Mono",monospace;letter-spacing:.08em;text-transform:uppercase}
 .body{padding:18px 18px 8px;display:grid;gap:8px;align-content:start}
 .body h2{margin:0;font:800 30px/1 "Big Shoulders Display",Impact,sans-serif;text-transform:uppercase;display:flex;justify-content:space-between;align-items:baseline;gap:10px}
 .body h2 small{font:500 11px/1 "IBM Plex Mono",monospace;letter-spacing:.06em;color:var(--ink-3);text-transform:uppercase}
@@ -65,7 +66,7 @@ for (const o of OPTIONS) {
   const el = document.createElement('article');
   el.className = 'opt';
   el.innerHTML = `
-    <a class="preview" href="${href}" aria-label="Open the ${o.name} option"><iframe src="${href}" title="${o.name} preview" loading="lazy" tabindex="-1" aria-hidden="true"></iframe></a>
+    <a class="preview" href="${href}" aria-label="Open the ${o.name} option">${o.slug ? '<iframe src="' + href + '" title="' + o.name + ' preview" loading="lazy" tabindex="-1" aria-hidden="true"></iframe>' : '<span class="nopv">Live homepage · gym.tcmfuel.com</span>'}</a>
     <div class="body"><h2>${o.name} <small>${o.tag}</small></h2><p>${o.pitch}${o.pair ? ` <span class="pair">Pairs with the “${o.pair}” kit-store option.</span>` : ''}</p><div class="tags">${o.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div></div>
     <div class="actions"><a class="btn btn-turf" href="${href}">Open</a>${o.pair ? `<a class="btn btn-line" href="https://shop.tcmfuel.com/options/${o.pair.toLowerCase()}/">Matching kit store</a>` : ''}</div>`;
   grid.appendChild(el);
