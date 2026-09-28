@@ -10,7 +10,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Transform Fitness Plymouth">
 <meta property="og:title" content="Transform Fitness Plymouth | The People's Gym">
-<meta property="og:description" content="No egos. No judgement. Just real people getting real results, together. 24/7 gym access, group training every day and Plymouth's official HYROX training club. Your first session is on us.">
+<meta property="og:description" content="No egos. No judgement. Just real people getting real results — together. 24/7 gym access, group training every day and Plymouth's official HYROX training club. Your first session is on us.">
 <meta property="og:url" content="https://gym.tcmfuel.com/">
 <meta property="og:image" content="https://gym.tcmfuel.com/images/gym-community.jpg">
 <meta property="og:locale" content="en_GB">
@@ -42,7 +42,8 @@
   "hasMap": "https://maps.google.com/?q=9B+Meadow+Close,+Plympton,+Plymouth+PL7+5EX",
   "sameAs": [
     "https://www.instagram.com/transformfitnessplymouth/",
-    "https://www.facebook.com/profile.php?id=61569731062703"
+    "https://www.facebook.com/profile.php?id=61569731062703",
+    "https://shop.tcmfuel.com"
   ]
 }
 </script>
@@ -120,9 +121,13 @@ ul,ol{margin:0;padding:0;list-style:none}
 .hdr-cta{margin-left:auto;display:flex;align-items:center;gap:10px}
 .burger{display:none;width:44px;height:44px;border:0;background:none;cursor:pointer;color:var(--ink)}
 .prog{position:absolute;left:0;bottom:-1px;height:2px;width:100%;background:var(--green);transform:scaleX(0);transform-origin:left}
-.mnav{display:none;position:fixed;inset:66px 0 0;background:var(--bg);z-index:49;padding:24px;flex-direction:column;gap:4px;font:600 clamp(30px,9vw,40px)/1.1 var(--disp)}
+.mnav{display:none;position:fixed;inset:66px 0 0;background:var(--bg);z-index:49;padding:24px 24px calc(24px + 72px + env(safe-area-inset-bottom));flex-direction:column;gap:4px;font:600 clamp(30px,9vw,40px)/1.1 var(--disp);overflow-y:auto}
 .mnav a{padding:10px 0;min-height:44px;border-bottom:1px solid var(--line)}
 .mnav a:hover{color:var(--green)}
+.mnav-foot{margin-top:auto;padding-top:20px;display:grid;gap:2px;font:500 15px/1.4 var(--sans)}
+.mnav-foot .label{margin-bottom:6px}
+.mnav-foot a{border-bottom:0;padding:10px 0;color:var(--ink-2)}
+.mnav-foot a:hover{color:var(--green)}
 .mnav.open{display:flex}
 body.menu-open .opt-back{display:none}
 @media (max-width:980px){.nav,.hdr-cta .btn-line{display:none}.burger{display:grid;place-items:center}}
@@ -141,7 +146,10 @@ body.menu-open .opt-back{display:none}
 .hero-cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
 .hero-meta{display:flex;flex-wrap:wrap;gap:8px 22px;margin-top:30px;font:500 14px/1.4 var(--sans);color:var(--ink-2)}
 .hero-meta span::before{content:"▲ ";color:var(--green);font-size:8px;vertical-align:middle}
+.hero-note{margin-top:12px;max-width:48ch;color:var(--ink-2);font:400 14px/1.5 var(--sans)}
 /* hero copy renders on load: no entrance animation, no delays */
+/* phones: keep the address line clear of the sticky bar */
+@media (max-width:760px){.hero-in{padding-bottom:calc(48px + 72px + env(safe-area-inset-bottom))}}
 
 /* stats */
 .stats{display:grid;grid-template-columns:repeat(5,1fr);border-block:1px solid var(--line)}
@@ -183,57 +191,6 @@ body.menu-open .opt-back{display:none}
 .floor .big{grid-column:span 2;grid-row:span 2}
 .floor .tall{grid-row:span 2}
 @media (max-width:760px){.floor{grid-template-columns:1fr 1fr;grid-auto-rows:minmax(150px,42vw)}.floor .big{grid-column:span 2;grid-row:span 1}.floor .tall{grid-row:span 1}.floor figure:last-child{grid-column:span 2}}
-
-/* session timeline */
-.tl-wrap{background:var(--bg-2);border:1px solid var(--line);padding:clamp(22px,3vw,40px) clamp(18px,3vw,40px) clamp(22px,3vw,36px);position:relative;overflow:hidden}
-.tl-wrap::before{content:"Wed";position:absolute;right:-6px;top:-18px;font:600 clamp(90px,14vw,200px)/1 var(--disp);color:#111412;pointer-events:none}
-.tl-head{display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap;position:relative;margin-bottom:18px}
-.tl-head b{font:600 clamp(28px,3vw,40px)/1 var(--disp)}
-.tl-head span{font:500 var(--t-label)/1.4 var(--mono);color:var(--ink-3);letter-spacing:.08em;text-transform:uppercase}
-.tl{position:relative;height:250px;margin-top:110px}
-.tl-axis{position:absolute;left:0;right:0;top:50%;height:2px;background:var(--green)}
-.tl-ticks{position:absolute;z-index:2;left:0;right:0;top:50%;height:0}
-.tl-ticks i{position:absolute;left:var(--p);top:-6px;width:1px;height:12px;background:var(--line-2)}
-.tl-ticks i::after{content:attr(data-t);position:absolute;left:0;top:16px;transform:translateX(-50%);font:400 11px/1 var(--mono);color:var(--ink-3);white-space:nowrap}
-.tl-ticks i:first-child::after{transform:none}
-.tl-ticks i:last-child::after{transform:translateX(-100%)}
-.tl-band{position:absolute;z-index:1;left:var(--a);width:calc(var(--b) - var(--a));top:calc(50% - 22px);height:44px;border:1px dashed rgba(59,227,91,.55);background:repeating-linear-gradient(135deg,rgba(59,227,91,.12) 0 6px,transparent 6px 12px)}
-.tl-band a{position:absolute;inset:0;display:block}
-.tl-band span{position:absolute;left:auto;right:0;bottom:calc(100% + 8px);text-align:right;font:500 10.5px/1.3 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--green);white-space:nowrap;background:var(--bg-2);padding:5px 7px;border:1px solid rgba(59,227,91,.35);transition:border-color .25s,box-shadow .25s}
-.tl-band span b{display:inline;font-weight:500}
-.tl-band span em{font-style:normal}
-.tl-band span em::before{content:"· "}
-.tl-band span i{display:block;font-style:normal;color:var(--ink-2)}
-.tl-band a:hover span,.tl-band a:focus-visible span{border-color:var(--green)}
-.tl-ev{position:absolute;z-index:2;left:var(--p);top:50%;width:max-content;max-width:180px;transform:translate(-50%,0);text-align:center;transition:transform .3s var(--ease)}
-.tl-ev::before{content:"";position:absolute;left:50%;width:12px;height:12px;border-radius:50%;background:var(--green);box-shadow:0 0 0 4px var(--bg-2);transform:translate(-50%,-50%)}
-.tl-ev::after{content:"";position:absolute;left:50%;width:1px;background:var(--line-2)}
-.tl-ev.up{transform:translate(-50%,-100%);padding-bottom:96px}
-.tl-ev.up::before{bottom:-6px;top:auto;transform:translate(-50%,0)}
-.tl-ev.up::after{bottom:6px;height:86px}
-.tl-ev.dn{padding-top:44px}
-.tl-ev.dn::before{top:0}
-.tl-ev.dn::after{top:6px;height:34px}
-.tl-ev b{display:block;font:600 clamp(22px,2.2vw,30px)/1 var(--disp)}
-.tl-ev time,.tl-ev small{display:block;font:500 11.5px/1.5 var(--mono);color:var(--ink-3);letter-spacing:.06em;text-transform:uppercase}
-.tl-ev time{color:var(--green)}
-.tl-ev.star b{color:var(--green)}
-.tl-note{margin-top:18px;color:var(--ink-3);font:400 12.5px/1.6 var(--mono);position:relative}
-@media (max-width:760px){
-  .tl-wrap::before{right:0;top:-10px;font-size:clamp(64px,22vw,90px)}
-  .tl{height:auto;margin-top:22px;margin-left:8px;display:grid;gap:0;border-left:2px solid var(--green);padding-left:24px}
-  .tl-axis,.tl-ticks,.tl-strip{display:none}
-  .tl-band{position:relative;left:auto;width:auto;height:auto;min-height:44px;padding:0;margin:8px 0;order:3}
-  .tl-band a{position:relative;inset:auto;min-height:44px;display:flex;align-items:center;padding:8px 14px}
-  .tl-band span{position:static;transform:none;display:block;margin-bottom:0;text-align:left;white-space:normal;background:none;border:0;padding:0;font-size:11.5px;line-height:1.4}
-  .tl-band span b,.tl-band span em,.tl-band span i{display:inline;color:var(--green)}
-  .tl-band span em::before,.tl-band span i::before{content:" · "}
-  .tl-ev{position:relative;left:auto;top:auto;transform:none!important;padding:12px 0!important;max-width:none;text-align:left;width:auto;border-bottom:1px solid var(--line)}
-  .tl-ev::before,.tl-ev.up::before,.tl-ev.dn::before{left:-31px;top:20px!important;bottom:auto!important;transform:none!important}
-  .tl-ev::after{display:none}
-  .tl-ev:nth-child(3){order:1}.tl-ev:nth-child(4){order:2}.tl-ev:nth-child(6){order:4}
-  .tl-ev.up{padding-bottom:12px}
-}
 
 /* hyrox: split green/black */
 .hyrox{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
@@ -406,6 +363,7 @@ a.cls:hover span,a.cls:focus-visible span{border-bottom-color:var(--green)}
 .mcta .btn svg{flex:none}
 .opt-back{position:fixed;right:14px;bottom:14px;z-index:60;background:var(--green);color:var(--green-ink);font:700 12px/1 var(--sans);letter-spacing:.08em;text-transform:uppercase;padding:10px 14px}
 @media (max-width:760px){.mcta{display:grid}body{padding-bottom:72px}.opt-back{bottom:calc(80px + env(safe-area-inset-bottom));right:12px;padding:0 10px;min-height:44px;display:inline-flex;align-items:center;font-size:11px;opacity:.9}}
+@media (max-width:760px){.opt-back{display:none}}
 </style>
 </head>
 <body>
@@ -425,18 +383,19 @@ a.cls:hover span,a.cls:focus-visible span{border-bottom-color:var(--green)}
   </div>
   <div class="prog" id="prog" aria-hidden="true"></div>
 </header>
-<nav class="mnav" id="mnav" aria-label="Mobile"><a href="https://gym.tcmfuel.com/group-training.html">Group training</a><a href="https://gym.tcmfuel.com/membership.html">Membership</a><a href="https://gym.tcmfuel.com/personal-training.html">Personal training</a><a href="https://gym.tcmfuel.com/schedule.html">Schedule</a><a href="https://gym.tcmfuel.com/about.html">About</a><a href="https://gym.tcmfuel.com/contact.html">Contact</a></nav>
+<nav class="mnav" id="mnav" aria-label="Mobile"><a href="https://gym.tcmfuel.com/group-training.html">Group training</a><a href="https://gym.tcmfuel.com/membership.html">Membership</a><a href="https://gym.tcmfuel.com/personal-training.html">Personal training</a><a href="https://gym.tcmfuel.com/schedule.html">Schedule</a><a href="https://gym.tcmfuel.com/about.html">About</a><a href="https://gym.tcmfuel.com/contact.html">Contact</a><div class="mnav-foot"><span class="label">Find us</span><a href="https://maps.google.com/?q=9B+Meadow+Close,+Plympton,+Plymouth+PL7+5EX" target="_blank" rel="noopener">9B Meadow Close, Plympton, Plymouth PL7 5EX</a><a href="tel:01752427413">Call 01752 427413</a><a href="https://shop.tcmfuel.com" target="_blank" rel="noopener">Official kit store</a></div></nav>
 
 <main id="main">
 <section class="hero" id="hero">
   <div class="par" id="par">
-    <img src="/site-options/images/gym-community.webp" alt="Machines, free weights and functional training gear on the gym floor" width="1200" height="800" fetchpriority="high">
+    <img src="/site-options/images/gym-community.webp" alt="The gym floor at Transform Fitness" width="1200" height="800" fetchpriority="high">
   </div>
   <div class="wrap hero-in">
     <h1><span>No egos.</span><span class="g">No judgement.</span></h1>
     <p class="sub">24/7 gym access in Plympton · <span class="g">from £39.99 a month</span></p>
-    <p class="lede">Just real people getting real results, together. Group training every day and Plymouth's official HYROX training club. Two minutes off the A38, free parking.</p>
+    <p class="lede">Just real people getting real results — together. Group training every day and Plymouth's official HYROX training club. Two minutes off the A38, free parking.</p>
     <div class="hero-cta"><a class="btn btn-green" href="https://calendly.com/mike-transformgyms/free-trial-session" target="_blank" rel="noopener">Book a free session</a><a class="btn btn-line" href="#week">This week's classes</a></div>
+    <p class="hero-note">Pick a time that suits you. It's free, and it takes a minute. Opens our booking page.</p>
     <div class="hero-meta"><span>5-star Google rating</span><span>300+ members</span><span>9B Meadow Close, PL7 5EX</span></div>
   </div>
 </section>
@@ -447,50 +406,6 @@ a.cls:hover span,a.cls:focus-visible span{border-bottom-color:var(--green)}
   <div class="stat"><b>5<span class="g">★</span></b><span>Google rating</span></div>
   <div class="stat"><b>24<span class="g">/</span>7</b><span>Gym access</span></div>
   <div class="stat"><b>Free</b><span>Parking</span></div>
-</section>
-
-<section class="wrap sec">
-  <div class="sec-hd"><div><span class="label">Why Transform</span><h2>More than a gym.<br><span class="g">A crew.</span></h2></div><p>A place where every person, at every level, feels genuinely welcome from day one.</p></div>
-  <div class="why">
-    <article class="reveal" data-n="01"><h3>No judgement</h3><p>Whether it's your first session or your hundredth, you'll always feel welcome here. We celebrate every step of the journey, absolute beginners included.</p></article>
-    <article class="reveal" data-n="02"><h3>Real community</h3><p>Members cheer each other on, hold each other accountable, and show up for each other. Real people getting real results, together.</p></article>
-    <article class="reveal" data-n="03"><h3>Expert coaching</h3><p>Our coaches know their stuff and genuinely care about your progress. Group classes or one-to-one PT, you'll always have expert guidance in your corner.</p></article>
-  </div>
-</section>
-
-<section class="wrap sec sec-tight">
-  <div class="sec-hd"><div><span class="label">Meadow Close</span><h2>The <span class="g">floor.</span></h2></div><p>Machines, free weights and functional training gear, superbly set up. 24/7 gym access on every membership.</p></div>
-  <div class="floor">
-    <figure class="big reveal reveal-scale"><img src="/site-options/images/gym-community.webp" alt="The gym floor" loading="lazy" width="1200" height="800"><figcaption>The floor</figcaption></figure>
-    <figure class="tall reveal"><img src="/site-options/images/tf-squat.webp" alt="A member back-squatting" loading="lazy" width="591" height="659"><figcaption>Squat</figcaption></figure>
-    <figure class="reveal"><img src="/site-options/images/gym-circuits.webp" alt="A circuits class" loading="lazy" width="800" height="600"><figcaption>Circuits</figcaption></figure>
-    <figure class="reveal"><img src="/site-options/images/gym-team.webp" alt="Members at Transform Fitness" loading="lazy" width="800" height="600"><figcaption>Group training</figcaption></figure>
-    <figure class="reveal"><img src="/site-options/images/posts/17876169123599197.webp" alt="Two members with their HYROX finish time" loading="lazy" width="800" height="800"><figcaption>Race day</figcaption></figure>
-    <figure class="reveal"><img src="/site-options/images/gym-more-than-gym.webp" alt="Members on the gym floor" loading="lazy" width="800" height="600"><figcaption>Between sets</figcaption></figure>
-    <figure class="reveal"><img src="/site-options/images/posts/18138186763548491.webp" alt="A group of members under the wall" loading="lazy" width="1000" height="1333"><figcaption>The crew</figcaption></figure>
-    <figure class="reveal"><img src="/site-options/images/posts/18103922803815852.webp" alt="Cosmo the gym dog lying on the mat" loading="lazy" width="800" height="800"><figcaption>Cosmo · head of morale</figcaption></figure>
-  </div>
-</section>
-
-<section class="wrap sec sec-tight" aria-labelledby="tl-h">
-  <div class="sec-hd"><div><span class="label">Session timeline</span><h2 id="tl-h">One day on <span class="g">the floor.</span></h2></div><p>Wednesday has the fullest timetable of the week. Members have 24/7 gym access; the coached sessions land around it.</p></div>
-  <div class="tl-wrap reveal">
-    <div class="tl-head"><b>Wednesday</b><span><span class="tl-strip">Axis 6am to 10pm, for illustration only · </span>Four coached sessions</span></div>
-    <ol class="tl" aria-label="Wednesday sessions">
-      <li class="tl-axis" aria-hidden="true"></li>
-      <li class="tl-ticks" aria-hidden="true"><i style="--p:0%" data-t="6am"></i><i style="--p:12.5%" data-t="8am"></i><i style="--p:25%" data-t="10am"></i><i style="--p:37.5%" data-t="12pm"></i><i style="--p:50%" data-t="2pm"></i><i style="--p:62.5%" data-t="4pm"></i><i style="--p:75%" data-t="6pm"></i><i style="--p:87.5%" data-t="8pm"></i><i style="--p:100%" data-t="10pm"></i></li>
-      <li class="tl-ev up" style="--p:15.625%"><b>Circuits</b><time datetime="08:30">8:30am</time><small>Morning session</small></li>
-      <li class="tl-ev up star" style="--p:78.125%"><b>Foundations</b><time datetime="18:30">6:30pm</time><small>Beginners · start here</small></li>
-      <li class="tl-band" style="--a:75%;--b:100%"><a href="tel:01752427413" aria-label="HIIT, evening, time not fixed. Ring 01752 427413 for the time"><span><b>HIIT</b> <em>Evening</em><i>time not fixed · ring 01752 427413</i></span></a></li>
-      <li class="tl-ev dn" style="--p:84.375%"><b>Yoga</b><time datetime="19:30">7:30pm</time><small>Evening session</small></li>
-    </ol>
-    <p class="tl-note">Gym floor access is 24/7. HIIT runs in the evening and its time is not fixed; ring <a href="tel:01752427413" class="g inl">01752 427413</a>. The band is not a time slot. Times shown are the listed Wednesday sessions only.</p>
-  </div>
-</section>
-
-<section class="hyrox" id="hyrox">
-  <div class="txt reveal"><p class="label">Official training club</p><h2>Plymouth's HYROX hub</h2><p>HYROX is the world's fastest growing fitness race, and Transform Fitness is Plymouth's official training club. Chasing your first finish or a podium, our coaches will get you race-ready.</p><div class="hy-stats"><div><b>8</b><span>Stations</span></div><div><b>8km</b><span>Running</span></div><div><b>1</b><span>Finish line</span></div></div><a class="btn btn-black" href="https://calendly.com/mike-transformgyms/free-trial-session" target="_blank" rel="noopener">Train with us</a></div>
-  <figure class="img" style="margin:0"><img src="/site-options/images/posts/18312132742263049.webp" alt="HYROX sandbag press" loading="lazy" width="800" height="1000"><figcaption>Sandbag press · HYROX</figcaption></figure>
 </section>
 
 <section class="wrap sec" id="week">
@@ -510,13 +425,41 @@ a.cls:hover span,a.cls:focus-visible span{border-bottom-color:var(--green)}
 </section>
 
 <section class="wrap sec sec-tight">
-  <div class="sec-hd"><div><span class="label">Membership</span><h2>Pick your <span class="g">plan.</span></h2></div><p>Every plan gets the gym floor 24/7, free parking and the members app. The difference is how many group sessions you want a month.</p></div>
+  <div class="sec-hd"><div><span class="label">Membership</span><h2>Pick your <span class="g">plan.</span></h2></div><p>Every plan includes 24/7 gym access, free parking, coffee and supplements on site and the members app. The difference is how many group sessions you want a month. Cancel anytime, no hidden fees.</p></div>
   <div class="plans">
     <div class="plan reveal"><div class="nm"><span>Gym only</span></div><div class="pr">£39.99 <small>/ MONTH</small></div><ul><li>24/7 gym floor access</li><li>Free parking</li><li>Coffee and supplements on site</li><li>Members app</li></ul><a class="btn btn-line" href="https://38srv9i.pushpress.com/landing/plans/plan_5653d36c29404a/login" target="_blank" rel="noopener">Get started</a></div>
-    <div class="plan feat reveal"><div class="nm"><span>Hybrid</span><i>Most popular</i></div><div class="pr">£65 <small>/ MONTH</small></div><ul><li>12 group sessions a month</li><li>24/7 gym floor access</li><li>All class types included</li><li>Free parking and app</li></ul><a class="btn btn-line" href="https://38srv9i.pushpress.com/landing/plans/plan_8bffcaae96e44d/login" target="_blank" rel="noopener">Join now</a></div>
-    <div class="plan reveal"><div class="nm"><span>Unlimited</span></div><div class="pr">£90 <small>/ MONTH</small></div><ul><li>Unlimited group classes</li><li>24/7 gym floor access</li><li>HYROX, yoga and Pilates included</li><li>Free parking and app</li></ul><a class="btn btn-line" href="https://38srv9i.pushpress.com/landing/plans/plan_avapclmojw7ldy/login" target="_blank" rel="noopener">Get started</a></div>
+    <div class="plan feat reveal"><div class="nm"><span>Hybrid</span><i>Most popular</i></div><div class="pr">£65 <small>/ MONTH</small></div><ul><li>Everything in Gym Only, plus</li><li>12 group sessions a month</li><li>Any class type, HYROX, yoga and Pilates included</li></ul><a class="btn btn-line" href="https://38srv9i.pushpress.com/landing/plans/plan_8bffcaae96e44d/login" target="_blank" rel="noopener">Join now</a></div>
+    <div class="plan reveal"><div class="nm"><span>Unlimited</span></div><div class="pr">£90 <small>/ MONTH</small></div><ul><li>Everything in Gym Only, plus</li><li>Unlimited group classes</li><li>HYROX, yoga and Pilates included</li></ul><a class="btn btn-line" href="https://38srv9i.pushpress.com/landing/plans/plan_avapclmojw7ldy/login" target="_blank" rel="noopener">Get started</a></div>
   </div>
   <p class="plan-note">Day pass £10, pay per visit, staffed hours only (ask at reception or <a href="tel:01752427413" class="g inl">call ahead</a>) · Yearly plans available · Cancel anytime · <a href="https://gym.tcmfuel.com/membership.html" class="g inl">Compare memberships →</a></p>
+</section>
+
+<section class="wrap sec sec-tight">
+  <div class="sec-hd"><div><span class="label">Why Transform</span><h2>The People's<br><span class="g">Gym.</span></h2></div><p>No egos. No judgement. Just real people getting real results — together. Everyone welcome, at every level.</p></div>
+  <div class="why">
+    <article class="reveal" data-n="01"><h3>No judgement</h3><p>Everyone is welcome, from your first session onwards. If you have never trained before, Foundations on Wednesday at 6:30pm is the beginner-friendly intro class.</p></article>
+    <article class="reveal" data-n="02"><h3>Real community</h3><p>300+ members, a 5-star Google rating, and a gym dog called Cosmo. Real people getting real results — together.</p></article>
+    <article class="reveal" data-n="03"><h3>Coached sessions</h3><p>20+ classes a week across Circuits, Strength, HIIT, Yoga, Pilates and Foundations, one-to-one personal training, and Plymouth's official HYROX training club.</p></article>
+  </div>
+</section>
+
+<section class="wrap sec sec-tight">
+  <div class="sec-hd"><div><span class="label">Meadow Close</span><h2>The <span class="g">floor.</span></h2></div><p>Machines, free weights and functional training gear. 24/7 gym access on every membership, free parking on site.</p></div>
+  <div class="floor">
+    <figure class="big reveal reveal-scale"><img src="/site-options/images/gym-community.webp" alt="The gym floor" loading="lazy" width="1200" height="800"><figcaption>The floor</figcaption></figure>
+    <figure class="tall reveal"><img src="/site-options/images/tf-squat.webp" alt="A member squatting" loading="lazy" width="591" height="659"><figcaption>Squat</figcaption></figure>
+    <figure class="reveal"><img src="/site-options/images/gym-circuits.webp" alt="A circuits class" loading="lazy" width="800" height="600"><figcaption>Circuits</figcaption></figure>
+    <figure class="reveal"><img src="/site-options/images/gym-team.webp" alt="Members at Transform Fitness" loading="lazy" width="800" height="600"><figcaption>Group training</figcaption></figure>
+    <figure class="reveal"><img src="/site-options/images/posts/17876169123599197.webp" alt="Two members with their HYROX finish time" loading="lazy" width="800" height="800"><figcaption>Race day</figcaption></figure>
+    <figure class="reveal"><img src="/site-options/images/gym-more-than-gym.webp" alt="Members on the gym floor" loading="lazy" width="800" height="600"><figcaption>Between sets</figcaption></figure>
+    <figure class="reveal"><img src="/site-options/images/posts/18138186763548491.webp" alt="A group of members under the wall" loading="lazy" width="1000" height="1333"><figcaption>The crew</figcaption></figure>
+    <figure class="reveal"><img src="/site-options/images/posts/18103922803815852.webp" alt="Cosmo the gym dog lying on the mat" loading="lazy" width="800" height="800"><figcaption>Cosmo · head of morale</figcaption></figure>
+  </div>
+</section>
+
+<section class="hyrox" id="hyrox">
+  <div class="txt reveal"><p class="label">Plymouth's official HYROX training club</p><h2>HYROX training</h2><p>HYROX is the world's fastest growing fitness race, and Transform Fitness is Plymouth's official HYROX training club. HYROX training is included on Hybrid and Unlimited. Ask the team about it.</p><div class="hy-stats"><div><b>8</b><span>Stations</span></div><div><b>8km</b><span>Running</span></div><div><b>1</b><span>Finish line</span></div></div><a class="btn btn-black" href="https://calendly.com/mike-transformgyms/free-trial-session" target="_blank" rel="noopener">Train with us</a></div>
+  <figure class="img" style="margin:0"><img src="/site-options/images/posts/18312132742263049.webp" alt="HYROX sandbag press" loading="lazy" width="800" height="1000"><figcaption>Sandbag press · HYROX</figcaption></figure>
 </section>
 
 <section class="kit">
@@ -532,14 +475,14 @@ a.cls:hover span,a.cls:focus-visible span{border-bottom-color:var(--green)}
 </section>
 
 <section class="wrap sec">
-  <div class="sec-hd"><div><span class="label">Members' words</span><h2>Real people.<br><span class="g">Real results.</span></h2></div><p>Rated 5 stars on Google and the best reviewed gym in Plymouth. <a href="https://g.page/r/transform-fitness-plympton/review" target="_blank" rel="noopener" class="g inl">Read all reviews →</a></p></div>
+  <div class="sec-hd"><div><span class="label">Members' words</span><h2>Real people.<br><span class="g">Real results.</span></h2></div><p>Rated 5 stars on Google. <a href="https://maps.google.com/?q=Transform+Fitness+Plympton+PL7+5EX" target="_blank" rel="noopener" class="g inl">Read all the reviews →</a></p></div>
   <div class="quotes">
     <figure class="quote reveal"><span class="stars" role="img" aria-label="5 stars">★★★★★</span><blockquote><p>“I've been with Transform for 5 weeks now and I finally found a gym that I love. The guidance is second to none. The space is superbly set up with great kit.”</p></blockquote><figcaption>James M. (Member)</figcaption></figure>
     <figure class="quote reveal"><span class="stars" role="img" aria-label="5 stars">★★★★★</span><blockquote><p>“The coaches and members made me feel at ease immediately.”</p></blockquote><figcaption>Sarah R. (Member since 2024)</figcaption></figure>
     <figure class="quote reveal"><span class="stars" role="img" aria-label="5 stars">★★★★★</span><blockquote><p>“Best gym I've ever been a member of. The community here is genuinely unique — everyone knows your name, coaches push you hard but smartly.”</p></blockquote><figcaption>Mark J. (Member since 2024)</figcaption></figure>
     <figure class="quote reveal"><span class="stars" role="img" aria-label="5 stars">★★★★★</span><blockquote><p>“I've tried loads of gyms in Plymouth and nothing comes close. High energy, well-structured, the coaches clearly love what they do.”</p></blockquote><figcaption>Laura T. (Member since 2024)</figcaption></figure>
     <figure class="quote reveal"><span class="stars" role="img" aria-label="5 stars">★★★★★</span><blockquote><p>“Amazing equipment, knowledgeable and friendly staff. Super friendly coaches who genuinely care about your progress.”</p></blockquote><figcaption>Google Review (verified)</figcaption></figure>
-    <div class="quote cta reveal"><span class="stars" role="img" aria-label="5 stars">★★★★★</span><b>Best reviewed in Plymouth</b><a class="btn btn-black" href="https://g.page/r/transform-fitness-plympton/review" target="_blank" rel="noopener">Read on Google</a></div>
+    <div class="quote cta reveal"><span class="stars" role="img" aria-label="5 stars">★★★★★</span><b>5-star Google rating</b><a class="btn btn-black" href="https://maps.google.com/?q=Transform+Fitness+Plympton+PL7+5EX" target="_blank" rel="noopener">Google reviews</a></div>
   </div>
 </section>
 
@@ -584,7 +527,7 @@ a.cls:hover span,a.cls:focus-visible span{border-bottom-color:var(--green)}
     <div class="reveal"><dt data-n="05">Can I just drop in for a day?</dt><dd>Yes. A day pass is £10, pay per visit, and covers the gym during staffed hours rather than 24/7. Ask at reception or <a class="inl" href="tel:01752427413">call ahead</a>.</dd></div>
     <div class="reveal"><dt data-n="06">Which plan includes classes?</dt><dd>Hybrid (£65): 12 group sessions a month, any class type (HYROX, yoga and Pilates included). Unlimited (£90): the same classes, unlimited. <a class="inl" href="https://gym.tcmfuel.com/membership.html">Compare plans</a>.</dd></div>
     <div class="reveal"><dt data-n="07">Where do I park?</dt><dd>On site, free. We're at 9B Meadow Close on Langage Industrial Estate, 2 minutes off the A38.</dd></div>
-    <div class="reveal"><dt data-n="08">Do you train for HYROX?</dt><dd>We're Plymouth's official HYROX training club. Eight stations, 8 km of running, one finish line, and coaches who'll get you race-ready.</dd></div>
+    <div class="reveal"><dt data-n="08">Do you train for HYROX?</dt><dd>We're Plymouth's official HYROX training club. Eight stations, 8 km of running, one finish line. HYROX training is included on Hybrid and Unlimited. Ask the team about it.</dd></div>
     <div class="reveal"><dt data-n="09">Is there a members app?</dt><dd>Yes, it comes with every plan. Coffee and supplements are on site too.</dd></div>
     <div class="reveal"><dt data-n="10">Where do I get kit?</dt><dd>The <a class="inl" href="https://shop.tcmfuel.com" target="_blank" rel="noopener">official kit store</a>. Everything is printed and embroidered to order and collected from the front desk.</dd></div>
     <div class="reveal"><dt data-n="11">Do you do personal training?</dt><dd>Yes. Customised one-to-one sessions with nutrition advice, progress tracking and ongoing support, for all levels. It starts with a free consultation: speak to a member of the team or <a class="inl" href="https://gym.tcmfuel.com/personal-training.html">read more</a>.</dd></div>
@@ -604,17 +547,17 @@ a.cls:hover span,a.cls:focus-visible span{border-bottom-color:var(--green)}
 <footer class="foot">
   <div class="wrap">
     <div class="foot-in">
-      <div><img src="/site-options/images/tf-logo.webp" alt="Transform Fitness" width="108" height="36" style="height:36px;width:auto;margin-bottom:14px" loading="lazy"><p>Plymouth's People's Gym. 24/7 gym access, expert coaching, HYROX training, and a community like no other. Everyone welcome, all levels.</p></div>
+      <div><img src="/site-options/images/tf-logo.webp" alt="Transform Fitness" width="108" height="36" style="height:36px;width:auto;margin-bottom:14px" loading="lazy"><p>The People's Gym. 24/7 gym access, coached group training, personal training and Plymouth's official HYROX training club. Everyone welcome, all levels.</p></div>
       <div><h3>Quick links</h3><a href="https://gym.tcmfuel.com/group-training.html">Group training</a><a href="https://gym.tcmfuel.com/membership.html">Membership</a><a href="https://gym.tcmfuel.com/personal-training.html">Personal training</a><a href="https://gym.tcmfuel.com/schedule.html">Class schedule</a><a href="https://gym.tcmfuel.com/about.html">About us</a><a href="https://gym.tcmfuel.com/contact.html">Contact</a></div>
       <div><h3>Classes</h3><a href="#week">Circuits</a><a href="#week">Strength</a><a href="#week">HIIT</a><a href="#week">Yoga</a><a href="#week">Pilates</a><a href="#week">Foundations</a><a href="#hyrox">HYROX</a></div>
-      <div><h3>Contact</h3><a href="tel:01752427413">01752 427413</a><a href="mailto:info@transformgyms.uk">info@transformgyms.uk</a><a href="https://maps.google.com/?q=9B+Meadow+Close,+Plympton,+Plymouth+PL7+5EX" target="_blank" rel="noopener">9B Meadow Close, Plympton PL7 5EX</a><a href="https://www.instagram.com/transformfitnessplymouth/" target="_blank" rel="noopener">Instagram</a><a href="https://www.facebook.com/profile.php?id=61569731062703" target="_blank" rel="noopener">Facebook</a><a href="https://shop.tcmfuel.com" target="_blank" rel="noopener">Kit store</a></div>
+      <div><h3>Contact</h3><a href="tel:01752427413">01752 427413</a><a href="mailto:info@transformgyms.uk">info@transformgyms.uk</a><a href="https://maps.google.com/?q=9B+Meadow+Close,+Plympton,+Plymouth+PL7+5EX" target="_blank" rel="noopener">9B Meadow Close, Plympton PL7 5EX</a><a href="https://www.instagram.com/transformfitnessplymouth/" target="_blank" rel="noopener">Instagram</a><a href="https://www.facebook.com/profile.php?id=61569731062703" target="_blank" rel="noopener">Facebook</a><a href="https://shop.tcmfuel.com" target="_blank" rel="noopener">Kit store</a><a href="https://g.page/r/transform-fitness-plympton/review" target="_blank" rel="noopener">Leave a review</a></div>
     </div>
     <div class="giant" aria-hidden="true">Transform</div>
-    <div class="foot-base"><span>© 2026 Transform Fitness Plymouth</span><span>Proudly serving Plympton and Plymouth</span><a href="https://app.tcmfuel.com" style="display:inline-block">Staff login</a></div>
+    <div class="foot-base"><span>© 2026 Transform Fitness Plymouth</span><span>9B Meadow Close, Plympton, Plymouth PL7 5EX</span><a href="https://app.tcmfuel.com" style="display:inline-block">Staff login</a></div>
   </div>
 </footer>
 
-<div class="mcta" id="mcta"><a class="btn btn-green" href="https://calendly.com/mike-transformgyms/free-trial-session" target="_blank" rel="noopener">Free session</a><a class="btn btn-line" href="https://gym.tcmfuel.com/membership.html">From £39.99</a><a class="btn btn-line btn-call" href="tel:01752427413" aria-label="Call 01752 427413"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg></a></div>
+<div class="mcta" id="mcta"><a class="btn btn-green" href="https://calendly.com/mike-transformgyms/free-trial-session" target="_blank" rel="noopener">Free session</a><a class="btn btn-line" href="https://gym.tcmfuel.com/membership.html">From £39.99</a><a class="btn btn-line btn-call" href="tel:01752427413" aria-label="Call 01752 427413" title="Call"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg></a></div>
 <a class="opt-back" href="/site-options/">Options</a>
 
 <script>
@@ -631,8 +574,10 @@ document.documentElement.className='js';
 
   /* mobile nav */
   var b=document.getElementById('burger'),m=document.getElementById('mnav');
-  b.addEventListener('click',function(){var o=m.classList.toggle('open');b.setAttribute('aria-expanded',o);document.body.classList.toggle('menu-open',o);document.body.style.overflow=o?'hidden':''});
-  m.addEventListener('click',function(e){if(e.target.tagName==='A'){m.classList.remove('open');b.setAttribute('aria-expanded','false');document.body.classList.remove('menu-open');document.body.style.overflow=''}});
+  if(b&&m){
+    b.addEventListener('click',function(){var o=m.classList.toggle('open');b.setAttribute('aria-expanded',o);document.body.classList.toggle('menu-open',o);document.body.style.overflow=o?'hidden':''});
+    m.addEventListener('click',function(e){if(e.target.tagName==='A'){m.classList.remove('open');b.setAttribute('aria-expanded','false');document.body.classList.remove('menu-open');document.body.style.overflow=''}});
+  }
 
   /* sequenced reveal: siblings stagger, everything else lands at once */
   var reveals=document.querySelectorAll('.reveal');
@@ -654,15 +599,17 @@ document.documentElement.className='js';
 
   /* scroll: progress bar, hero parallax (the sticky mobile bar is visible from load) */
   var prog=document.getElementById('prog'),par=document.getElementById('par'),hero=document.getElementById('hero'),ticking=false;
-  function onScroll(){
-    var y=window.scrollY||window.pageYOffset;
-    var max=document.documentElement.scrollHeight-window.innerHeight;
-    prog.style.transform='scaleX('+(max>0?Math.min(1,y/max):0)+')';
-    if(!reduce&&y<hero.offsetHeight){par.style.transform='translate3d(0,'+(y*.28)+'px,0)'}
-    ticking=false;
+  if(prog||(par&&hero)){
+    var onScroll=function(){
+      var y=window.scrollY||window.pageYOffset;
+      var max=document.documentElement.scrollHeight-window.innerHeight;
+      if(prog){prog.style.transform='scaleX('+(max>0?Math.min(1,y/max):0)+')'}
+      if(par&&hero&&!reduce&&y<hero.offsetHeight){par.style.transform='translate3d(0,'+(y*.28)+'px,0)'}
+      ticking=false;
+    };
+    window.addEventListener('scroll',function(){if(!ticking){requestAnimationFrame(onScroll);ticking=true}},{passive:true});
+    onScroll();
   }
-  window.addEventListener('scroll',function(){if(!ticking){requestAnimationFrame(onScroll);ticking=true}},{passive:true});
-  onScroll();
 })();
 </script>
 </body>
