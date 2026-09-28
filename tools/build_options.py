@@ -68,7 +68,7 @@ TEMPLATE = """<!doctype html>
 </html>
 """
 
-V = "20260930a"
+V = "20260930b"
 root = os.path.join(os.path.dirname(__file__), "..")
 for name, (title, _pitch, fonts) in OPTIONS.items():
     d = os.path.join(root, "options", name)
