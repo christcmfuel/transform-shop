@@ -16,8 +16,8 @@ window.TF_SITE = {
       { src: 'brand/photos/ig-17876169123599197.webp', alt: 'Two members with their HYROX finish time on the screen', span: 'tall' },
       { src: 'brand/photos/tf-op-enrichment.webp', alt: 'A packed group session under the Transform Fitness wall' },
       { src: 'brand/photos/tf-squat.webp', alt: 'A member back-squatting on the lifting platform' },
-      { src: 'brand/photos/gym-circuits.webp', alt: 'Kettlebell work in a circuits class', span: 'tall' },
-      { src: 'brand/photos/gym-team.webp', alt: 'Members after a group session under the Discipline Beats Motivation sign' },
+      { src: 'brand/photos/gym-circuits.webp', alt: 'Kettlebell work in a circuits class', span: '2' },
+      { src: 'brand/photos/gym-team.webp', alt: 'Members after a group session under the Discipline Beats Motivation sign', span: '2' },
     ],
   },
 };

@@ -36,7 +36,7 @@ const PAID_RETURN = (() => {
     return { session, cancelled };
   } catch (e) { return { session: '', cancelled: '' }; }
 })();
-const FEATURED = ['back-mark-tee', 'classic-hoodie', 'performance-vest', 'core-sports-bra', 'team-tee', 'heavyweight-crew', 'training-shorts', 'training-holdall'];
+const FEATURED = (SITE.featured || ['back-mark-tee', 'classic-hoodie', 'performance-vest', 'core-sports-bra', 'team-tee', 'heavyweight-crew', 'training-shorts', 'training-holdall']).filter(sl => BY_SLUG[sl]);
 const CAT_COVER = { tees: 'back-mark-tee', vests: 'performance-vest', bras: 'core-sports-bra', hoodies: 'classic-hoodie', sweats: 'heavyweight-crew', shorts: 'training-shorts', outerwear: 'padded-gilet', headwear: 'air-mesh-cap', bags: 'training-holdall' };
 const TAGS = {
   'back-mark-tee': ['Back print'], 'team-tee': ['Back print'], 'tech-zip-hoodie': ['Back print'],
@@ -402,7 +402,7 @@ function Header({ route }) {
   const close = () => { closeT.current = setTimeout(() => setMega(false), 140); };
   const is = n => route.name === n;
   return html`
-    <div class="announce">Made to order for <b>The People's Gym</b> · Free collection in Plympton${SITE.optionsUrl && html` · <a class="announce-link" href=${SITE.optionsUrl}>Design options</a>`}</div>
+    <div class="announce">${SITE.announce || html`Made to order for <b>The People's Gym</b> · Free collection in Plympton`}${SITE.optionsUrl && html` · <a class="announce-link" href=${SITE.optionsUrl}>Design options</a>`}</div>
     <header class="hdr" onMouseLeave=${close}>
       <div class="wrap hdr-in">
         <button type="button" class="ibtn menu-btn" aria-label="Open menu" onClick=${() => A.ui({ menu: true })}>${Icon('menu')}</button>
@@ -478,13 +478,13 @@ function Hero() {
           <${Link} class="btn btn-turf" to="shop">Shop the kit ${Icon('arrowR')}<//>
           <${Link} class="btn btn-line" to="kit">Build a race kit<//>
         </div>
-        <div class="hero-facts"><span>${PRODUCTS.length} styles · ${COLOURWAYS} options</span><span>Sizes XXS to 6XL</span><span>Made to order</span></div>
+        <div class="hero-facts">${(SITE.heroFacts || [`${PRODUCTS.length} styles · ${COLOURWAYS} options`, 'Sizes XXS to 6XL', 'Made to order']).map(f => html`<span>${f}</span>`)}</div>
       </div>
     </div>
   </section>`;
 }
 function Ticker() {
-  const items = ["The People's Gym", 'Plympton, Plymouth', 'HYROX training club', 'Printed to order', 'Embroidered to order', 'Collect from the front desk'];
+  const items = SITE.tickerItems || ["The People's Gym", 'Plympton, Plymouth', 'HYROX training club', 'Printed to order', 'Embroidered to order', 'Collect from the front desk'];
   const row = [...items, ...items];
   return html`<div class="ticker" aria-hidden="true"><div class="ticker-track">${row.map(t => html`<span>${t}</span>`)}</div></div>`;
 }
@@ -492,7 +492,7 @@ function CategoryRail() {
   const ref = useRef();
   const scroll = d => ref.current && ref.current.scrollBy({ left: d * ref.current.clientWidth * 0.8, behavior: 'smooth' });
   return html`<section class="sec wrap" aria-labelledby="cats-h">
-    <${SecHead} eyebrow="Shop by category" title="Kit for every session" id="cats-h">
+    <${SecHead} eyebrow=${SITE.catsEyebrow || 'Shop by category'} title=${SITE.catsTitle || 'Kit for every session'} id="cats-h">
       <div class="rail-btns">
         <button type="button" class="btn btn-line btn-sm" aria-label="Scroll categories left" onClick=${() => scroll(-1)}>${Icon('arrowL', 'ico-sm')}</button>
         <button type="button" class="btn btn-line btn-sm" aria-label="Scroll categories right" onClick=${() => scroll(1)}>${Icon('arrowR', 'ico-sm')}</button>
@@ -508,7 +508,7 @@ function CategoryRail() {
 }
 function Featured() {
   return html`<section class="sec-tight wrap" aria-labelledby="feat-h" style="padding-top:0">
-    <${SecHead} eyebrow="The core kit" title="Start with these" id="feat-h"><${Link} class="link" to="shop">Shop all ${PRODUCTS.length} styles ${Icon('arrowR', 'ico-sm')}<//><//>
+    <${SecHead} eyebrow=${SITE.featEyebrow || 'The core kit'} title=${SITE.featTitle || 'Start with these'} id="feat-h"><${Link} class="link" to="shop">Shop all ${PRODUCTS.length} styles ${Icon('arrowR', 'ico-sm')}<//><//>
     <div class="grid">${FEATURED.map((sl, i) => html`<${ProductCard} key=${sl} p=${BY_SLUG[sl]} eager=${i < 4} />`)}</div>
   </section>`;
 }
@@ -519,8 +519,8 @@ function PrintTiles() {
     { k: 'black', cls: 'olive', hex: '#0c0d0c' },
   ];
   return html`<section class="sec wrap" aria-labelledby="print-h">
-    <${SecHead} eyebrow="One mark, three colours" title="Pick your print" id="print-h">
-      <p class="lede" style="max-width:40ch">The triangle mark comes in green, silver or black. Choose the colour first and see every piece that carries it.</p>
+    <${SecHead} eyebrow=${SITE.printEyebrow || 'One mark, three colours'} title=${SITE.printTitle || 'Pick your print'} id="print-h">
+      <p class="lede" style="max-width:40ch">${SITE.printLede || 'The triangle mark comes in green, silver or black. Choose the colour first and see every piece that carries it.'}</p>
     <//>
     <div class="prints">
       ${tones.map(t => {
@@ -555,9 +555,9 @@ function RaceKit() {
   return html`<section class="band rubber sec" id="kit" aria-labelledby="kit-h">
     <div class="wrap kit">
       <div class="kit-intro">
-        <p class="eyebrow">Race-day kit</p>
-        <h2 class="h-lg" id="kit-h">Built for 8 × 1 km and 8 stations</h2>
-        <p class="lede">Transform Fitness is Plymouth's official HYROX training club. Put a race kit together in one go: a top, shorts and something for your head.</p>
+        <p class="eyebrow">${SITE.kitEyebrow || 'Race-day kit'}</p>
+        <h2 class="h-lg" id="kit-h">${SITE.kitTitle || 'Built for 8 × 1 km and 8 stations'}</h2>
+        <p class="lede">${SITE.kitLede || "Transform Fitness is Plymouth's official HYROX training club. Put a race kit together in one go: a top, shorts and something for your head."}</p>
         <div class="kit-total">
           ${items.map(x => html`<div class="row small"><span>${x.p.name} · ${x.p.variants[x.st.vi].label}${sizeOf(x) ? ` · ${sizeOf(x)}` : ''}</span><span class="price">${gbp(x.p.variants[x.st.vi].price)}</span></div>`)}
           <div class="row" style="border-top:1px solid var(--band-line);padding-top:12px"><span class="label">Kit total</span><span class="big price">${gbp(total)}</span></div>
@@ -595,7 +595,7 @@ function RaceKit() {
 }
 function Steps() {
   return html`<section class="sec wrap" aria-labelledby="how-h">
-    <${SecHead} eyebrow="How it works" title="Made for you, not for a shelf" id="how-h" />
+    <${SecHead} eyebrow=${SITE.stepsEyebrow || 'How it works'} title=${SITE.stepsTitle || 'Made for you, not for a shelf'} id="how-h" />
     <div class="steps">
       <div class="step"><span class="n">01</span><h3 class="h-sm">Order online</h3><p class="muted">Pick a colourway and size. Collection from the gym is free, or choose UK delivery.</p></div>
       <div class="step"><span class="n">02</span><h3 class="h-sm">We print or embroider it</h3><p class="muted">Each piece is decorated to order for you. Production takes 10 to 15 days.</p></div>
@@ -607,9 +607,9 @@ function About() {
   return html`<section class="band sec" aria-labelledby="about-h">
     <div class="wrap about">
       <div style="display:grid;gap:20px">
-        <p class="eyebrow">${GYM.tagline}</p>
-        <h2 class="h-lg" id="about-h">The mark from the gym wall</h2>
-        <p class="lede">Transform Fitness is an independent gym in Plympton, Plymouth. The kit carries the same triangle you train under, and every order supports the gym.</p>
+        <p class="eyebrow">${SITE.aboutEyebrow || GYM.tagline}</p>
+        <h2 class="h-lg" id="about-h">${SITE.aboutTitle || 'The mark from the gym wall'}</h2>
+        <p class="lede">${SITE.aboutLede || 'Transform Fitness is an independent gym in Plympton, Plymouth. The kit carries the same triangle you train under, and every order supports the gym.'}</p>
         <div class="facts">
           <div><b>PL7</b><span>Plympton, Plymouth</span></div>
           <div><b>HYROX</b><span>Official training club</span></div>
@@ -631,9 +631,13 @@ function RecentRow({ exclude, title = 'Recently viewed' }) {
 function Gallery() {
   const g = SITE.gallery;
   if (!g || !g.photos || !g.photos.length) return null;
-  return html`<section class="sec wrap gallery" aria-labelledby="gal-h">
+  // Phone grid is 2 columns: big/2/wide photos take both, the rest one. An odd count of
+  // one-column photos would leave a hole, so the last of them goes full width.
+  const narrow = g.photos.map((ph, i) => (!ph.span || ph.span === 'tall') ? i : -1).filter(i => i >= 0);
+  const mWide = narrow.length % 2 ? narrow[narrow.length - 1] : -1;
+  return html`<section class="sec wrap home-gallery" aria-labelledby="gal-h">
     <${SecHead} eyebrow=${g.eyebrow || 'From the floor'} title=${g.title || 'The People\u2019s Gym'} id="gal-h">${g.lede && html`<p class="lede" style="max-width:44ch">${g.lede}</p>`}<//>
-    <div class="gallery-grid">${g.photos.map((ph, i) => html`<figure class=${'gal-item' + (ph.span ? ' span-' + ph.span : '')} key=${i}>
+    <div class="gallery-grid">${g.photos.map((ph, i) => html`<figure class=${'gal-item' + (ph.span ? ' span-' + ph.span : '') + (i === mWide ? ' m-wide' : '')} key=${i}>
       <img src=${ASSET + ph.src} alt=${ph.alt || ''} loading="lazy" decoding="async" />
       ${ph.caption && html`<figcaption>${ph.caption}</figcaption>`}
     </figure>`)}</div>
@@ -651,7 +655,7 @@ function Footer() {
       <div class="foot-cols">
         <div style="display:grid;gap:16px;align-content:start">
           <span class="brand"><span class="mk" style="width:44px;color:var(--turf)"></span><span class="wm" style="width:190px;color:var(--band-ink)"></span></span>
-          <p style="color:var(--band-ink-2);max-width:34ch">Official kit of ${GYM.name}, ${GYM.tagline}. Printed and embroidered to order.</p>
+          <p style="color:var(--band-ink-2);max-width:34ch">${SITE.footerBlurb || `Official kit of ${GYM.name}, ${GYM.tagline}. Printed and embroidered to order.`}</p>
           ${!s.pay.stripe && html`<span class="preview-flag">${s.pay.checked ? 'Card payments offline' : 'Checking payments'}</span>`}
         </div>
         <div><h4>Shop</h4><ul>${CATS.map(c => html`<li><${Link} to=${'shop-' + c.slug}>${c.label}<//></li>`)}</ul></div>

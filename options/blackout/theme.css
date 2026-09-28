@@ -21,6 +21,8 @@ body { font-variation-settings: "wdth" 94 }
 
 /* ---------- type: stencil headline, condensed everything ---------- */
 .h-xl { font-family: var(--f-stencil); font-size: clamp(58px, 10.5vw, 172px); line-height: .8; letter-spacing: 0 }
+/* Stacked stencil lines touch at .8; give the hero headline air. */
+.hero-h { line-height: .88 }
 .hero-h em { color: var(--turf); text-shadow: 0 0 26px rgba(59,227,91,.55), 0 0 70px rgba(59,227,91,.25) }
 .h-lg { font-size: clamp(42px, 6vw, 84px); line-height: .86 }
 .buy-title { font-family: var(--f-stencil); font-size: clamp(44px, 5vw, 72px) }
@@ -32,7 +34,7 @@ body { font-variation-settings: "wdth" 94 }
 
 /* ---------- surfaces ---------- */
 .announce { background: var(--turf); color: var(--turf-ink); font-weight: 600 }
-.announce b { color: var(--turf-ink) }
+.announce b, .announce-link { color: var(--turf-ink) }
 .hdr { background: rgba(7,9,8,.86) }
 .tile { background: #101312; outline: 1px solid #1B201D; outline-offset: -1px; transition: outline-color .2s }
 .card:hover .tile { outline-color: var(--turf) }
@@ -60,7 +62,7 @@ body { font-variation-settings: "wdth" 94 }
 .hero-facts span::before { background: var(--turf) }
 @media (max-width: 760px) {
   .hero-media { position: absolute; inset: 0; aspect-ratio: auto }
-  .hero-media::after { background: linear-gradient(0deg, #000 8%, rgba(0,0,0,.35) 60%, rgba(0,0,0,.2)) }
+  .hero-media::after { background: linear-gradient(0deg, #000 12%, rgba(0,0,0,.72) 48%, rgba(0,0,0,.3) 78%, rgba(0,0,0,.2)) }
   .hero-in { min-height: 88vh; display: flex; align-items: flex-end }
   .hero-copy { margin-top: 0; padding-block: 0 40px }
 }

@@ -16,7 +16,7 @@ window.TF_SITE = {
       { src: 'brand/photos/ig-18312132742263049.webp', alt: 'A member pressing a sandbag overhead at a HYROX event', span: 'big' },
       { src: 'brand/photos/gym-community.webp', alt: 'The gym floor: black and green racks and free weights' },
       { src: 'brand/photos/tf-squat.webp', alt: 'A member back-squatting on the lifting platform' },
-      { src: 'brand/photos/gym-team.webp', alt: 'Members after a group session under the Discipline Beats Motivation sign', span: '2' },
+      { src: 'brand/photos/gym-team.webp', alt: 'Members after a group session under the Discipline Beats Motivation sign', span: 'wide' },
     ],
   },
 };

@@ -17,7 +17,7 @@ window.TF_SITE = {
       { src: 'brand/photos/tf-squat.webp', alt: 'A member back-squatting on the lifting platform', span: 'tall' },
       { src: 'brand/photos/gym-team.webp', alt: 'Members after a group session under the Discipline Beats Motivation sign' },
       { src: 'brand/photos/gym-circuits.webp', alt: 'Kettlebell work in a circuits class' },
-      { src: 'brand/photos/gym-more-than-gym.webp', alt: 'Two members talking between sets', span: 'tall' },
+      { src: 'brand/photos/gym-more-than-gym.webp', alt: 'Two members talking between sets', span: '2' },
       { src: 'brand/photos/ig-17876169123599197.webp', alt: 'Two members with their HYROX finish time on the screen' },
       { src: 'brand/photos/tf-cosmo.webp', alt: 'Cosmo, the gym dog, in a Transform Fitness cap', caption: 'Cosmo · head of morale' },
     ],

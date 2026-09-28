@@ -32,7 +32,7 @@
 .eyebrow { font-family: var(--f-body); font-weight: 600; letter-spacing: .12em; font-size: 11.5px }
 .lede { font-size: clamp(17px, 1.5vw, 19px); line-height: 1.6 }
 .step .n { font-size: 56px; font-style: italic }
-.giant { font-style: italic; letter-spacing: -.03em; color: var(--turf) }
+.giant { --giant-r: 4.32; font-style: italic; letter-spacing: -.03em; color: var(--turf) }
 
 /* ---------- controls: pills and soft corners ---------- */
 .btn { border-radius: 999px; text-transform: none; letter-spacing: 0; font-size: 14.5px; font-weight: 600; padding-inline: 26px }
@@ -51,7 +51,7 @@
 
 /* ---------- header ---------- */
 .announce { background: var(--turf); color: var(--turf-ink); font-family: var(--f-body); text-transform: none; letter-spacing: .02em; font-size: 12.5px }
-.announce b { color: var(--turf-ink); font-weight: 700 }
+.announce b, .announce-link { color: var(--turf-ink); font-weight: 700 }
 .hdr { background: color-mix(in srgb, var(--chalk) 92%, transparent); border-bottom-color: var(--line) }
 .nav > a, .nav > button { text-transform: none; letter-spacing: 0; font-size: 14.5px; font-weight: 500 }
 .nav > a::after, .nav > button::after { background: var(--ink) }
@@ -82,8 +82,8 @@
 .foot h4 { font-family: var(--f-body); text-transform: none; letter-spacing: 0; font-size: 13px; font-weight: 600 }
 
 /* ---------- gallery framed like a lookbook ---------- */
-.gallery .gal-item { border-radius: 18px; box-shadow: var(--shadow) }
-.gallery .gal-item figcaption { font-family: var(--f-body); text-transform: none; letter-spacing: 0; font-size: 12.5px }
+.home-gallery .gal-item { border-radius: 18px; box-shadow: var(--shadow) }
+.home-gallery .gal-item figcaption { font-family: var(--f-body); text-transform: none; letter-spacing: 0; font-size: 12.5px }
 
 /* ---------- print tiles / categories ---------- */
 .print-tile { border-radius: 18px }

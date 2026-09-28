@@ -33,7 +33,7 @@
 .hero .eyebrow, .band .eyebrow { color: var(--turf) }
 .lede { line-height: 1.6 }
 .ticker-track span { text-transform: none; letter-spacing: 0; font-weight: 700 }
-.giant { font-weight: 800; letter-spacing: -.05em; text-transform: none; color: var(--turf) }
+.giant { --giant-r: 4.65; font-weight: 800; letter-spacing: -.05em; text-transform: none; color: var(--turf) }
 
 /* ---------- controls: pills and big radii ---------- */
 .btn { border-radius: 999px; text-transform: none; letter-spacing: 0; font-size: 15px; font-weight: 700; min-height: 52px; padding-inline: 26px }
@@ -58,7 +58,7 @@
 
 /* ---------- header ---------- */
 .announce { background: var(--turf); color: var(--turf-ink); font-family: var(--f-body); text-transform: none; letter-spacing: 0; font-size: 13px; font-weight: 600 }
-.announce b { color: var(--turf-ink) }
+.announce b, .announce-link { color: var(--turf-ink) }
 .hdr { background: color-mix(in srgb, var(--chalk) 90%, transparent) }
 .nav > a, .nav > button { text-transform: none; letter-spacing: 0; font-size: 15px; font-weight: 600 }
 .nav > a::after, .nav > button::after { background: var(--turf); height: 3px; border-radius: 3px }
@@ -75,6 +75,8 @@
 .hero-facts span::before { border-radius: 50%; clip-path: none; background: var(--turf) }
 @media (max-width: 760px) {
   .hero-media { position: absolute; inset: 0; aspect-ratio: auto }
+  /* Copy spans the full width on a phone, so darken bottom-up, not left-right. */
+  .hero-media::after { background: linear-gradient(0deg, rgba(31,42,34,.95) 10%, rgba(31,42,34,.74) 55%, rgba(31,42,34,.35)) }
   .hero-in { min-height: 80vh; display: flex; align-items: flex-end }
   .hero-copy { margin-top: 0; padding-block: 0 40px }
 }
@@ -86,8 +88,8 @@
 .foot h4 { font-family: var(--f-body); text-transform: none; letter-spacing: 0; font-size: 14px; font-weight: 700 }
 
 /* ---------- gallery captions warm ---------- */
-.gallery .gal-item { box-shadow: var(--shadow) }
-.gallery .gal-item figcaption { font-family: var(--f-body); text-transform: none; letter-spacing: 0; font-size: 13px; font-weight: 600 }
+.home-gallery .gal-item { box-shadow: var(--shadow) }
+.home-gallery .gal-item figcaption { font-family: var(--f-body); text-transform: none; letter-spacing: 0; font-size: 13px; font-weight: 600 }
 
 /* ---------- footer: Cosmo signs off ---------- */
 .foot-base::before { content: "Approved by Cosmo, head of morale"; display: block; width: 100%; padding: 12px 16px; margin-bottom: 8px; border-radius: 14px; background: var(--band-2) url(/brand/photos/tf-cosmo.webp) right 12px center / 44px 44px no-repeat; color: var(--band-ink); font-weight: 600 }
