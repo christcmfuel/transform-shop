@@ -20,15 +20,37 @@ npx http-server . -p 8080
 - `catalog.js` — generated product data. `img/` — generated product cut-outs.
 - `brand/` — logo masks (recoloured in CSS), hero photo, rubber-floor texture.
 
-## Checkout is preview-only
+## Design options
 
-No payments are taken and orders aren't sent anywhere. The confirmation page
-links each item to the current DecoNetwork store
-(https://transformfitness.deco-apparel.com) so people can order it today.
-`index.html` carries `noindex` until checkout is real — remove it then.
+`/options/` holds alternative looks for the same store: Chalk, Blackout, Field,
+People. Each is `options/<name>/theme.css` (token and layout overrides on top
+of `css/store.css`) plus `options/<name>/site.js` (`window.TF_SITE`: hero
+copy/media, ticker switch, photo gallery). `tools/build_options.py` writes each
+option's `index.html`; `options/index.html` compares them with live previews.
+Real gym photos live in `brand/photos/`. To promote an option to the live
+store, copy its theme rules into `css/store.css` and its `TF_SITE` settings
+into a `<script>` in `index.html`.
 
-Delivery settings live at the top of `app.js` (`FREE_DELIVERY_OVER`,
-`DELIVERY_FEE`).
+## Payments
+
+Checkout hands off to Stripe through the Transform Hub API
+(`https://app.tcmfuel.com/api/shop/...`, source in the `transform-hub` repo,
+`crm/server/src/shop.ts`). On load the store asks `/api/shop/config`; when
+Stripe is on, the "Pay by card" flow runs and the thank-you page shows live
+order status. When the API is off or unreachable the store falls back to a
+request-only checkout that links each item to the old DecoNetwork store
+(https://transformfitness.deco-apparel.com). The API prices every checkout
+from this repo's `catalog.json`, never from the browser.
+
+`index.html` carries `noindex` until payments are live. Remove it then.
+Delivery terms (£4.95, free over £60) are set in the API and mirrored at the
+top of `app.js`.
+
+## Checkout fallback (no payments)
+
+When the API reports card payments are off, orders are only kept in the
+visitor's browser and the confirmation page links each item to the current
+DecoNetwork store so people can order it today.
 
 ## Refreshing the catalogue from the DecoNetwork store
 
