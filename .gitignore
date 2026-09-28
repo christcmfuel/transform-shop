@@ -1,0 +1,6 @@
+# catalogue build cache (tools/)
+tools/raw/
+tools/raw600/
+tools/cut/
+tools/img_manifest.json
+__pycache__/
