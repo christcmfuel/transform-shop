@@ -1,5 +1,6 @@
 // People: warm, community-first. Members' photos everywhere, the dog in the footer.
 window.TF_SITE = {
+  optionsUrl: '/options/',
   heroImage: 'brand/photos/tf-op-enrichment.webp',
   heroAlt: 'A packed group session under the Transform Fitness wall',
   heroEyebrow: 'By members, for members',

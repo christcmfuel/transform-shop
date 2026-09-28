@@ -1,5 +1,6 @@
 // Blackout: dark and loud. Video from the gym floor, the wall sign as the headline.
 window.TF_SITE = {
+  optionsUrl: '/options/',
   heroVideo: 'brand/photos/gym-hero.mp4',
   heroImage: 'brand/photos/gym-community.webp',
   heroAlt: 'Training on the gym floor at Transform Fitness',

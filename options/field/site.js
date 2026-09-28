@@ -1,5 +1,6 @@
 // Field: olive, utilitarian, kit-list. Built around the olive tees and MOLLE packs.
 window.TF_SITE = {
+  optionsUrl: '/options/',
   heroImage: 'brand/photos/gym-more-than-gym.webp',
   heroAlt: 'Two members talking between sets in front of the OSB wall',
   heroEyebrow: 'Official kit · Langage, Plympton · 2 min off the A38',

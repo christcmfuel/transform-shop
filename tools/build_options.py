@@ -59,7 +59,6 @@ TEMPLATE = """<!doctype html>
 <script src="site.js?v={v}"></script>
 </head>
 <body>
-<a class="opt-back" href="/options/">Options</a>
 <div id="app"></div>
 <noscript><p style="padding:24px">The Transform Fitness kit store needs JavaScript to run.</p></noscript>
 <script src="/vendor/htm-preact-3.1.1.umd.js"></script>
@@ -69,7 +68,7 @@ TEMPLATE = """<!doctype html>
 </html>
 """
 
-V = "20260929b"
+V = "20260929c"
 root = os.path.join(os.path.dirname(__file__), "..")
 for name, (title, _pitch, fonts) in OPTIONS.items():
     d = os.path.join(root, "options", name)

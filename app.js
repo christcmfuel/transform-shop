@@ -402,7 +402,7 @@ function Header({ route }) {
   const close = () => { closeT.current = setTimeout(() => setMega(false), 140); };
   const is = n => route.name === n;
   return html`
-    <div class="announce">Made to order for <b>The People's Gym</b> · Free collection in Plympton</div>
+    <div class="announce">Made to order for <b>The People's Gym</b> · Free collection in Plympton${SITE.optionsUrl && html` · <a class="announce-link" href=${SITE.optionsUrl}>Design options</a>`}</div>
     <header class="hdr" onMouseLeave=${close}>
       <div class="wrap hdr-in">
         <button type="button" class="ibtn menu-btn" aria-label="Open menu" onClick=${() => A.ui({ menu: true })}>${Icon('menu')}</button>

@@ -1,5 +1,6 @@
 // Chalk: light editorial. Real photography framed like a lookbook.
 window.TF_SITE = {
+  optionsUrl: '/options/',
   heroImage: 'brand/photos/tf-group-team.webp',
   heroAlt: 'Members gathered under the Transform Fitness wall after a group session',
   heroEyebrow: 'Official kit · Transform Fitness Plymouth',
