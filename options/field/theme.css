@@ -57,7 +57,8 @@ body { background: var(--chalk); background-image:
 .sw.on, .sw:hover { box-shadow: 0 0 0 2px var(--chalk), 0 0 0 3.5px var(--ink) }
 .chip.on, .sbtn.on { background: var(--ink); color: var(--chalk); border-color: var(--ink) }
 .announce { background: var(--ink); color: var(--chalk) }
-.announce b, .announce-link { color: var(--orange) }
+/* A touch lighter than --orange: small text on the dark bar needs 4.5:1 */
+.announce b, .announce-link { color: #EC7050 }
 .nav > a, .nav > button { font-family: var(--f-display); font-size: 17px; letter-spacing: .06em }
 .nav > a::after, .nav > button::after { background: var(--orange) }
 .hero-facts span::before, .bullets li::before { background: var(--orange) }
