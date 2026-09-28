@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Transform Fitness — Everyone knows your name here · Option C</title>
+<meta name="description" content="Transform Fitness, Plympton. 24/7 gym, group training, HYROX club, personal training. No egos. No judgement. Free first session.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#FBF7F2">
+<link rel="icon" href="/site-options/images/tf-logo.webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Archivo:wdth,wght@75..125,400..700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#FBF7F2;--paper-2:#F3EDE4;--sand:#E8DCC8;--ink:#2B2A28;--ink-2:#5E5B56;--ink-3:#8C8882;--line:#E6DFD4;--green:#2FD34F;--green-ink:#0A2E14;--green-text:#1E9C3A;--green-soft:#E2F7E7;--band:#1F2A22;--band-2:#28352B;--band-ink:#F6F3EC;--band-ink-2:#B9C2B8;--disp:"Outfit","Helvetica Neue",Arial,sans-serif;--sans:"Archivo","Helvetica Neue",Arial,sans-serif;--mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;--r:22px;color-scheme:light}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 16px/1.6 var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+h1,h2,h3{margin:0;font-family:var(--disp);font-weight:800;letter-spacing:-.03em;line-height:1;text-wrap:balance}
+p{margin:0}
+ul{margin:0;padding:0;list-style:none}
+:focus-visible{outline:2px solid var(--green-text);outline-offset:3px}
+.wrap{width:100%;max-width:1320px;margin-inline:auto;padding-inline:clamp(18px,4vw,48px)}
+.label{font:600 14px/1.3 var(--sans);color:var(--green-text)}
+.g{color:var(--green)}
+.gt{color:var(--green-text)}
+.btn{display:inline-flex;align-items:center;gap:10px;min-height:54px;padding:0 26px;border-radius:999px;font:700 15px/1 var(--sans);border:2px solid transparent;transition:transform .15s,box-shadow .2s}
+.btn:hover{transform:translateY(-1px)}
+.btn-green{background:var(--green);color:var(--green-ink)}
+.btn-green:hover{box-shadow:0 0 0 5px rgba(47,211,79,.25)}
+.btn-ink{background:var(--ink);color:var(--paper)}
+.btn-line{border-color:var(--ink)}
+.btn-paper{background:var(--paper);color:var(--ink)}
+.pill{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;background:var(--green-soft);color:var(--green-ink);font:600 13px/1 var(--sans)}
+.card{background:#fff;border:1px solid var(--line);border-radius:var(--r);box-shadow:0 2px 4px rgba(43,42,40,.03),0 14px 34px rgba(43,42,40,.07)}
+.reveal{opacity:1;transform:none}
+@media (prefers-reduced-motion:no-preference){.reveal{opacity:0;transform:translateY(18px);transition:opacity .7s cubic-bezier(.2,.8,.2,1),transform .7s cubic-bezier(.2,.8,.2,1)}.reveal.in{opacity:1;transform:none}}
+
+/* header */
+.hdr{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--paper) 88%,transparent);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.hdr-in{display:flex;align-items:center;gap:24px;height:70px}
+.logo img{height:40px;width:auto}
+.nav{display:flex;gap:4px}
+.nav a{padding:8px 12px;border-radius:999px;font-size:15px;font-weight:600;color:var(--ink-2)}
+.nav a:hover{background:var(--paper-2);color:var(--ink)}
+.hdr-cta{margin-left:auto;display:flex;align-items:center;gap:10px}
+.burger{display:none;width:42px;height:42px;border:0;background:none;cursor:pointer;color:var(--ink)}
+.mnav{display:none;position:fixed;inset:70px 0 0;background:var(--paper);z-index:49;padding:24px;flex-direction:column;gap:6px;font:800 36px/1.1 var(--disp);letter-spacing:-.03em}
+.mnav.open{display:flex}
+@media (max-width:980px){.nav,.hdr-cta .btn-line{display:none}.burger{display:grid;place-items:center}}
+
+/* hero */
+.hero{position:relative;background:var(--band);color:var(--band-ink);overflow:hidden;isolation:isolate}
+.hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 55%;z-index:-1}
+.hero::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(31,42,34,.92) 0%,rgba(31,42,34,.7) 45%,rgba(31,42,34,.2) 85%),linear-gradient(0deg,rgba(31,42,34,.97) 0%,rgba(31,42,34,.55) 40%,rgba(31,42,34,0) 70%)}
+.hero h1,.hero p{text-shadow:0 2px 24px rgba(0,0,0,.35)}
+.hero-in{min-height:min(84vh,780px);display:flex;align-items:flex-end;padding-block:120px 60px}
+.hero h1{font-size:clamp(46px,7.6vw,112px);color:#fff}
+.hero p{max-width:50ch;color:#DCE3DA;font-size:clamp(16px,1.5vw,19px);margin-top:22px}
+.hero-cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
+.hero .pill{background:rgba(255,255,255,.12);color:#fff;margin-bottom:18px}
+.hero .pill img{width:26px;height:26px;border-radius:50%;object-fit:cover}
+@media (max-width:760px){.hero-in{min-height:80vh;padding-top:80px}.hero::before{background:linear-gradient(0deg,rgba(31,42,34,.98) 0%,rgba(31,42,34,.78) 50%,rgba(31,42,34,.3) 100%)}.hero img{object-position:50% 35%}}
+
+/* stats: soft tiles */
+.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-top:-34px;position:relative;z-index:2}
+.stat{background:#fff;border:1px solid var(--line);border-radius:18px;padding:20px 18px;box-shadow:0 10px 30px rgba(43,42,40,.08)}
+.stat b{display:block;font:800 clamp(30px,3.6vw,44px)/1 var(--disp);letter-spacing:-.03em}
+.stat span{font-size:13px;color:var(--ink-3);font-weight:500}
+@media (max-width:860px){.stats{grid-template-columns:repeat(2,1fr);margin-top:20px}.stat:last-child{grid-column:1/-1}}
+
+/* sections */
+.sec{padding-block:clamp(56px,8vw,112px)}
+.sec-hd{display:grid;gap:12px;max-width:62ch;margin-bottom:clamp(28px,4vw,48px)}
+.sec-hd h2{font-size:clamp(34px,4.8vw,64px)}
+.sec-hd p{color:var(--ink-2);font-size:17px}
+.sec-hd.center{margin-inline:auto;text-align:center;justify-items:center}
+
+/* start here */
+.start{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:clamp(24px,4vw,56px);align-items:center;background:var(--green-soft);border-radius:28px;padding:clamp(24px,4vw,48px);overflow:hidden}
+.start h2{font-size:clamp(32px,4.4vw,56px)}
+.start p{color:var(--ink-2);font-size:17px;margin-top:14px;max-width:48ch}
+.start .when{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.start .when span{background:#fff;border-radius:999px;padding:8px 14px;font-weight:600;font-size:14px}
+.start img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:20px}
+@media (max-width:860px){.start{grid-template-columns:1fr}}
+
+/* coaches */
+.coaches{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
+.coach{padding:22px 18px;display:grid;gap:10px;justify-items:start}
+.coach .av{width:56px;height:56px;border-radius:50%;display:grid;place-items:center;background:var(--green);color:var(--green-ink);font:800 20px/1 var(--disp)}
+.coach b{font:800 22px/1 var(--disp);letter-spacing:-.02em}
+.coach span{font-size:13px;color:var(--ink-3)}
+@media (max-width:980px){.coaches{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:600px){.coaches{grid-template-columns:repeat(2,1fr)}}
+
+/* week */
+.week{display:grid;grid-template-columns:repeat(7,1fr);gap:12px}
+.day{padding:18px 16px 20px;display:grid;gap:10px;align-content:start}
+.day > b{font:800 22px/1 var(--disp);letter-spacing:-.02em}
+.cls{border-top:1px solid var(--line);padding-top:8px;display:grid;gap:2px}
+.cls b{font-weight:700;font-size:15px}
+.cls span{font-size:12.5px;color:var(--ink-3)}
+.cls.star b{color:var(--green-text)}
+.week-note{margin-top:22px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:center;color:var(--ink-2)}
+@media (max-width:980px){.week{grid-template-columns:repeat(4,1fr)}}
+@media (max-width:640px){.week{grid-template-columns:repeat(2,1fr)}}
+
+/* masonry gallery */
+.gal{columns:3;column-gap:14px}
+.gal figure{margin:0 0 14px;break-inside:avoid;position:relative;border-radius:18px;overflow:hidden}
+.gal img{width:100%;display:block}
+.gal figcaption{position:absolute;left:12px;bottom:12px;background:rgba(255,255,255,.92);color:var(--ink);border-radius:999px;padding:7px 12px;font:600 12.5px/1 var(--sans)}
+@media (max-width:760px){.gal{columns:2}}
+
+/* hyrox card */
+.hyrox{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:0;background:var(--band);color:var(--band-ink);border-radius:28px;overflow:hidden}
+.hyrox .txt{padding:clamp(28px,4.5vw,64px)}
+.hyrox h2{font-size:clamp(34px,4.6vw,60px);color:#fff}
+.hyrox p{color:var(--band-ink-2);font-size:17px;margin-top:16px;max-width:46ch}
+.hy-stats{display:flex;gap:30px;margin-top:26px}
+.hy-stats b{display:block;font:800 44px/1 var(--disp);color:var(--green)}
+.hy-stats span{font-size:13px;color:var(--band-ink-2)}
+.hyrox .btn{margin-top:26px}
+.hyrox img{width:100%;height:100%;object-fit:cover;min-height:360px}
+@media (max-width:860px){.hyrox{grid-template-columns:1fr}.hyrox img{min-height:280px}}
+
+/* pricing */
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;align-items:start}
+.plan{padding:30px;display:grid;gap:18px;align-content:start;position:relative}
+.plan.feat{border-color:var(--green);box-shadow:0 0 0 3px var(--green-soft),0 20px 50px rgba(43,42,40,.1)}
+.plan .badge{position:absolute;top:-14px;left:26px;background:var(--green);color:var(--green-ink);border-radius:999px;padding:7px 12px;font:700 12px/1 var(--sans)}
+.plan .nm{font:600 15px/1.2 var(--sans);color:var(--ink-3)}
+.plan .pr{font:800 clamp(44px,4.6vw,64px)/1 var(--disp);letter-spacing:-.03em}
+.plan .pr small{font:500 15px/1 var(--sans);color:var(--ink-3);letter-spacing:0}
+.plan ul{display:grid;gap:8px;color:var(--ink-2);font-size:15px}
+.plan li::before{content:"✓ ";color:var(--green-text);font-weight:700}
+.plan-note{margin-top:20px;color:var(--ink-3);font-size:14px}
+@media (max-width:860px){.plans{grid-template-columns:1fr}}
+
+/* reviews as bubbles */
+.quotes{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.quote{padding:26px;display:grid;gap:14px;align-content:start;border-radius:22px 22px 22px 6px}
+.quote p{font-size:16.5px}
+.quote cite{font-style:normal;display:flex;align-items:center;gap:10px;font-size:13px;color:var(--ink-3)}
+.quote cite b{width:34px;height:34px;border-radius:50%;background:var(--sand);display:grid;place-items:center;font:800 13px/1 var(--disp);color:var(--ink)}
+.stars{color:var(--green-text);letter-spacing:.1em}
+@media (max-width:860px){.quotes{grid-template-columns:1fr}}
+
+/* find us */
+.find{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.find .card{padding:24px;display:grid;gap:6px;align-content:start}
+.find b{font:800 20px/1.1 var(--disp);letter-spacing:-.02em}
+.find p{color:var(--ink-2)}
+@media (max-width:760px){.find{grid-template-columns:1fr}}
+
+/* trial */
+.trial{background:var(--green);color:var(--green-ink)}
+.trial-in{display:flex;justify-content:space-between;align-items:center;gap:24px;padding-block:clamp(44px,6vw,80px);flex-wrap:wrap}
+.trial h2{font-size:clamp(36px,5vw,66px)}
+.trial p{max-width:48ch;margin-top:12px;color:#0A3315;font-size:17px}
+
+/* footer */
+.foot{background:var(--band);color:var(--band-ink);padding-block:48px 24px}
+.foot-in{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:32px}
+.foot h4{margin:0 0 12px;font:700 14px/1.2 var(--sans);color:var(--band-ink-2)}
+.foot a{display:block;padding:4px 0}
+.foot a:hover{color:var(--green)}
+.foot p{color:var(--band-ink-2);max-width:36ch}
+.cosmo{margin-top:34px;display:flex;align-items:center;gap:14px;background:var(--band-2);border-radius:18px;padding:12px 16px;width:fit-content}
+.cosmo img{width:48px;height:48px;border-radius:50%;object-fit:cover;object-position:50% 30%}
+.cosmo b{display:block}
+.cosmo span{color:var(--band-ink-2);font-size:13px}
+.foot-base{margin-top:28px;padding-top:18px;border-top:1px solid #3A4A3D;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:13px;color:var(--band-ink-2)}
+@media (max-width:860px){.foot-in{grid-template-columns:1fr 1fr}}
+.opt-back{position:fixed;left:14px;bottom:14px;z-index:60;background:var(--ink);color:var(--paper);font:700 13px/1 var(--sans);padding:11px 16px;border-radius:999px;box-shadow:0 10px 30px rgba(0,0,0,.2)}
+</style>
+</head>
+<body>
+
+<header class="hdr">
+  <div class="wrap hdr-in">
+    <a class="logo" href="https://gym.tcmfuel.com/"><img src="/site-options/images/tf-logo.webp" alt="Transform Fitness"></a>
+    <nav class="nav" aria-label="Main"><a href="https://gym.tcmfuel.com/group-training.html">Group training</a><a href="https://gym.tcmfuel.com/membership.html">Membership</a><a href="https://gym.tcmfuel.com/personal-training.html">Personal training</a><a href="https://gym.tcmfuel.com/schedule.html">Schedule</a><a href="https://gym.tcmfuel.com/about.html">About</a><a href="https://gym.tcmfuel.com/contact.html">Contact</a></nav>
+    <div class="hdr-cta">
+      <a class="btn btn-line" href="https://gym.tcmfuel.com/membership.html">Join from £39.99</a>
+      <a class="btn btn-green" href="https://calendly.com/mike-transformgyms/free-trial-session" target="_blank" rel="noopener">Free session</a>
+      <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+    </div>
+  </div>
+  <nav class="mnav" id="mnav" aria-label="Mobile"><a href="https://gym.tcmfuel.com/group-training.html">Group training</a><a href="https://gym.tcmfuel.com/membership.html">Membership</a><a href="https://gym.tcmfuel.com/personal-training.html">Personal training</a><a href="https://gym.tcmfuel.com/schedule.html">Schedule</a><a href="https://gym.tcmfuel.com/about.html">About</a><a href="https://gym.tcmfuel.com/contact.html">Contact</a></nav>
+</header>
+
+<main>
+<section class="hero">
+  <img src="/site-options/images/tf-op-enrichment.webp" alt="A packed group session under the Transform Fitness wall" fetchpriority="high">
+  <div class="wrap hero-in"><div>
+    <span class="pill"><img src="/site-options/images/tf-cosmo.webp" alt="">The People's Gym · Plympton</span>
+    <h1>Everyone knows <span class="g">your name</span> here.</h1>
+    <p>No egos. No judgement. Just real people getting real results, together. A 24-hour gym, coached classes every day, and a beginners' class every Wednesday so nobody has to guess.</p>
+    <div class="hero-cta"><a class="btn btn-green" href="https://calendly.com/mike-transformgyms/free-trial-session" target="_blank" rel="noopener">Book a free session →</a><a class="btn btn-paper" href="#start">New? Start here</a></div>
+  </div></div>
+</section>
+
+<div class="wrap stats">
+  <div class="stat"><b><span data-count="300">0</span>+</b><span>Members and counting</span></div>
+  <div class="stat"><b><span data-count="20">0</span>+</b><span>Coached classes a week</span></div>
+  <div class="stat"><b>5<span class="gt" style="font-size:.6em;vertical-align:.3em">★</span></b><span>Rated on Google</span></div>
+  <div class="stat"><b>24/7</b><span>Gym access</span></div>
+  <div class="stat"><b>Free</b><span>Parking, always</span></div>
+</div>
+
+<section class="wrap sec" id="start">
+  <div class="start reveal">
+    <div><p class="label">New to the gym?</p><h2 style="margin-top:10px">Start with Foundations.</h2><p>A beginner-friendly intro class every Wednesday evening. Learn the movements, meet the coaches, and see how the place works before you commit to anything.</p><div class="when"><span>Wednesdays 6:30pm</span><span>All levels</span><span>Free first session</span></div><a class="btn btn-ink" style="margin-top:22px" href="https://calendly.com/mike-transformgyms/free-trial-session" target="_blank" rel="noopener">Book Foundations →</a></div>
+    <img src="/site-options/images/gym-team.webp" alt="Members after a group session under the Discipline Beats Motivation sign" loading="lazy">
+  </div>
+</section>
+
+<section class="wrap sec" style="padding-top:0">
+  <div class="sec-hd"><p class="label">Meet the coaches</p><h2>Ask for any of us on your first visit.</h2><p>We'll show you round, find out what you're after and put you in the right session. No hard sell.</p></div>
+  <div class="coaches">
+    <div class="card coach reveal"><span class="av">N</span><b>Narcisse</b><span>Coach</span></div>
+    <div class="card coach reveal"><span class="av">E</span><b>Eliya</b><span>Coach</span></div>
+    <div class="card coach reveal"><span class="av">K</span><b>Kirsty</b><span>Coach</span></div>
+    <div class="card coach reveal"><span class="av">B</span><b>Brad</b><span>Coach</span></div>
+    <div class="card coach reveal"><span class="av">A</span><b>Ava</b><span>Coach</span></div>
+  </div>
+</section>
+
+<section class="wrap sec" style="padding-top:0" id="week">
+  <div class="sec-hd"><p class="label">This week</p><h2>Something on every day.</h2><p>Early-morning circuits, lunchtime Pilates, evening HIIT, Sunday yoga. Pick what fits your week.</p></div>
+  <div class="week">
+    <div class="card day"><b>Mon</b><div class="cls"><b>Circuits</b><span>8:30am</span></div><div class="cls"><b>HIIT</b><span>Evening</span></div></div>
+    <div class="card day"><b>Tue</b><div class="cls"><b>Strength</b><span>9:45am</span></div></div>
+    <div class="card day"><b>Wed</b><div class="cls"><b>Circuits</b><span>8:30am</span></div><div class="cls star"><b>Foundations</b><span>6:30pm · beginners</span></div><div class="cls"><b>HIIT</b><span>Evening</span></div><div class="cls"><b>Yoga</b><span>7:30pm</span></div></div>
+    <div class="card day"><b>Thu</b><div class="cls"><b>Strength</b><span>9:45am</span></div></div>
+    <div class="card day"><b>Fri</b><div class="cls"><b>Circuits</b><span>8:30am</span></div><div class="cls"><b>Pilates</b><span>10:30am</span></div><div class="cls"><b>HIIT</b><span>Evening</span></div></div>
+    <div class="card day"><b>Sat</b><div class="cls"><b>Circuits</b><span>8:30am</span></div><div class="cls"><b>Strength</b><span>9:45am</span></div></div>
+    <div class="card day"><b>Sun</b><div class="cls"><b>Pilates</b><span>9:00am</span></div><div class="cls"><b>Yoga</b><span>10:00am</span></div></div>
+  </div>
+  <div class="week-note"><span>All classes are coached, all levels welcome.</span><a class="btn btn-line" href="https://gym.tcmfuel.com/schedule.html">Full schedule →</a></div>
+</section>
+
+<section class="wrap sec" style="padding-top:0">
+  <div class="sec-hd"><p class="label">Our lot</p><h2>This is who you'll be training with.</h2><p>Real people, real effort, real results. And Cosmo, who runs quality control.</p></div>
+  <div class="gal">
+    <figure class="reveal"><img src="/site-options/images/gym-community.webp" alt="The gym floor at Transform Fitness" loading="lazy"><figcaption>The floor</figcaption></figure>
+    <figure class="reveal"><img src="/site-options/images/posts/18103922803815852.webp" alt="Cosmo the gym dog on the Transform Fitness mat" loading="lazy"><figcaption>Cosmo, head of morale</figcaption></figure>
+    <figure class="reveal"><img src="/site-options/images/tf-group-team.webp" alt="Members gathered under the Transform Fitness wall" loading="lazy"><figcaption>Team Transform</figcaption></figure>
+    <figure class="reveal"><img src="/site-options/images/gym-circuits.webp" alt="Kettlebell work in a circuits class" loading="lazy"><figcaption>Circuits</figcaption></figure>
+    <figure class="reveal"><img src="/site-options/images/posts/17876169123599197.webp" alt="Two members with their HYROX finish time on the screen" loading="lazy"><figcaption>Race day</figcaption></figure>
+    <figure class="reveal"><img src="/site-options/images/gym-yoga-pilates.webp" alt="Yoga and Pilates at Transform Fitness" loading="lazy"><figcaption>Yoga and Pilates</figcaption></figure>
+    <figure class="reveal"><img src="/site-options/images/gym-more-than-gym.webp" alt="Two members talking between sets" loading="lazy"><figcaption>Between sets</figcaption></figure>
+    <figure class="reveal"><img src="/site-options/images/tf-squat.webp" alt="A member back-squatting on the platform" loading="lazy"><figcaption>Strong and focused</figcaption></figure>
+    <figure class="reveal"><img src="/site-options/images/gym-foundations.webp" alt="Foundations, the beginners' class" loading="lazy"><figcaption>Foundations</figcaption></figure>
+  </div>
+  <p style="margin-top:18px;text-align:center"><a class="btn btn-line" href="https://www.instagram.com/transformfitnessplymouth/" target="_blank" rel="noopener">Follow @transformfitnessplymouth →</a></p>
+</section>
+
+<section class="wrap sec" style="padding-top:0">
+  <div class="hyrox reveal">
+    <div class="txt"><p class="label">Official training club</p><h2 style="margin-top:10px">Plymouth's HYROX training hub.</h2><p>HYROX is the world's fastest-growing fitness race, and we're Plymouth's official training club. First finish or podium, our coaches will get you race-ready, and you'll have a team on the day.</p><div class="hy-stats"><div><b>8</b><span>Stations</span></div><div><b>8km</b><span>Running</span></div><div><b>1</b><span>Finish line</span></div></div><a class="btn btn-green" href="https://calendly.com/mike-transformgyms/free-trial-session" target="_blank" rel="noopener">Train with us →</a></div>
+    <img src="/site-options/images/posts/18312132742263049.webp" alt="A Transform Fitness member pressing a sandbag overhead at a HYROX event" loading="lazy">
+  </div>
+</section>
+
+<section class="wrap sec" style="padding-top:0">
+  <div class="sec-hd"><p class="label">Simple pricing</p><h2>Find your membership.</h2><p>Straightforward plans with no hidden fees. Cancel anytime. Day pass £10, yearly plans available.</p></div>
+  <div class="plans">
+    <div class="card plan reveal"><div class="nm">Gym only</div><div class="pr">£39.99 <small>/ month</small></div><ul><li>24/7 gym floor access</li><li>Free parking</li><li>Coffee and supplements on site</li><li>Members app</li></ul><a class="btn btn-line" href="https://38srv9i.pushpress.com/landing/plans/plan_5653d36c29404a/login" target="_blank" rel="noopener">Get started</a></div>
+    <div class="card plan feat reveal"><span class="badge">Most popular</span><div class="nm">Hybrid</div><div class="pr">£65 <small>/ month</small></div><ul><li>12 group sessions a month</li><li>24/7 gym floor access</li><li>All class types included</li><li>Free parking and app</li></ul><a class="btn btn-green" href="https://38srv9i.pushpress.com/landing/plans/plan_8bffcaae96e44d/login" target="_blank" rel="noopener">Join now →</a></div>
+    <div class="card plan reveal"><div class="nm">Unlimited</div><div class="pr">£90 <small>/ month</small></div><ul><li>Unlimited group classes</li><li>24/7 gym floor access</li><li>HYROX, yoga and Pilates included</li><li>Free parking and app</li></ul><a class="btn btn-line" href="https://38srv9i.pushpress.com/landing/plans/plan_avapclmojw7ldy/login" target="_blank" rel="noopener">Get started</a></div>
+  </div>
+  <p class="plan-note">Day pass £10 · Yearly plans available · Cancel anytime · <a href="https://gym.tcmfuel.com/membership.html" class="gt" style="font-weight:600">Compare memberships →</a></p>
+</section>
+
+<section class="wrap sec" style="padding-top:0">
+  <div class="sec-hd"><p class="label">What members say</p><h2>Real people. Real results.</h2><p>Rated 5 stars on Google. <a href="https://g.page/r/transform-fitness-plympton/review" target="_blank" rel="noopener" class="gt" style="font-weight:600">Read all reviews →</a></p></div>
+  <div class="quotes">
+    <blockquote class="card quote reveal"><span class="stars">★★★★★</span><p>“I finally found a gym that I love. The guidance is second to none. The space is superbly set up with great kit.”</p><cite><b>JM</b>James M. · Member</cite></blockquote>
+    <blockquote class="card quote reveal"><span class="stars">★★★★★</span><p>“The coaches and members made me feel at ease immediately. Foundations was the perfect start. Six months in and I'm hooked.”</p><cite><b>SR</b>Sarah R. · Member since 2024</cite></blockquote>
+    <blockquote class="card quote reveal"><span class="stars">★★★★★</span><p>“Best gym I've ever been a member of. Everyone knows your name; coaches push you hard but smartly.”</p><cite><b>MJ</b>Mark J. · Member since 2024</cite></blockquote>
+  </div>
+</section>
+
+<section class="wrap sec" style="padding-top:0">
+  <div class="sec-hd"><p class="label">Find us</p><h2>Two minutes off the A38.</h2></div>
+  <div class="find">
+    <div class="card"><b>9B Meadow Close</b><p>Langage Industrial Estate, Plympton, Plymouth PL7 5EX. Free parking right outside.</p><a class="gt" style="font-weight:600" href="https://maps.google.com/?q=9B+Meadow+Close,+Plympton,+Plymouth+PL7+5EX" target="_blank" rel="noopener">Open in Maps →</a></div>
+    <div class="card"><b>Open 24/7</b><p>Members get in any time, day or night. Coached classes run every day of the week.</p></div>
+    <div class="card"><b>Say hello</b><p>01752 427413<br>info@transformgyms.uk</p></div>
+  </div>
+</section>
+
+<section class="trial"><div class="wrap trial-in"><div><h2>Your first session is on us.</h2><p>Walk in, train hard, feel the difference. No commitment, no hard sell, just a free session to see if we're right for you.</p></div><a class="btn btn-ink" href="https://calendly.com/mike-transformgyms/free-trial-session" target="_blank" rel="noopener">Claim your free session →</a></div></section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-in">
+      <div><img src="/site-options/images/tf-logo.webp" alt="Transform Fitness" style="height:36px;width:auto;margin-bottom:14px"><p>Plymouth's People's Gym. 24/7 access, expert coaching, HYROX training, and a community like no other. Everyone welcome, beginners to athletes.</p><div class="cosmo"><img src="/site-options/images/tf-cosmo.webp" alt=""><div><b>Approved by Cosmo</b><span>Head of morale</span></div></div></div>
+      <div><h4>Quick links</h4><a href="https://gym.tcmfuel.com/group-training.html">Group training</a><a href="https://gym.tcmfuel.com/membership.html">Membership</a><a href="https://gym.tcmfuel.com/personal-training.html">Personal training</a><a href="https://gym.tcmfuel.com/schedule.html">Class schedule</a><a href="https://gym.tcmfuel.com/about.html">About us</a><a href="https://gym.tcmfuel.com/contact.html">Contact</a></div>
+      <div><h4>Classes</h4><a href="https://gym.tcmfuel.com/schedule.html">Circuits</a><a href="https://gym.tcmfuel.com/schedule.html">Strength</a><a href="https://gym.tcmfuel.com/schedule.html">HIIT</a><a href="https://gym.tcmfuel.com/schedule.html">Yoga</a><a href="https://gym.tcmfuel.com/schedule.html">Pilates</a><a href="https://gym.tcmfuel.com/schedule.html">Foundations</a><a href="https://gym.tcmfuel.com/schedule.html">HYROX</a></div>
+      <div><h4>Contact</h4><a href="tel:01752427413">01752 427413</a><a href="mailto:info@transformgyms.uk">info@transformgyms.uk</a><a href="https://maps.google.com/?q=9B+Meadow+Close,+Plympton,+Plymouth+PL7+5EX" target="_blank" rel="noopener">9B Meadow Close, Plympton PL7 5EX</a><a href="https://www.instagram.com/transformfitnessplymouth/" target="_blank" rel="noopener">Instagram</a><a href="https://www.facebook.com/profile.php?id=61569731062703" target="_blank" rel="noopener">Facebook</a><a href="https://shop.tcmfuel.com">Kit store</a></div>
+    </div>
+    <div class="foot-base"><span>© 2026 Transform Fitness Plymouth</span><span>Proudly serving Plympton and Plymouth</span><a href="https://app.tcmfuel.com" style="display:inline">Staff login</a></div>
+  </div>
+</footer>
+<a class="opt-back" href="/site-options/">Options</a>
+
+<script>
+const b=document.getElementById('burger'),m=document.getElementById('mnav');
+b.addEventListener('click',()=>{const o=m.classList.toggle('open');b.setAttribute('aria-expanded',o);document.body.style.overflow=o?'hidden':''});
+m.addEventListener('click',e=>{if(e.target.tagName==='A'){m.classList.remove('open');document.body.style.overflow=''}});
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{rootMargin:'0px 0px -8% 0px'});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+const co=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;const el=e.target,t=+el.dataset.count,s=performance.now();const step=n=>{const p=Math.min(1,(n-s)/1100);el.textContent=Math.round(t*(1-Math.pow(1-p,3)));if(p<1)requestAnimationFrame(step)};requestAnimationFrame(step);co.unobserve(el)}));
+document.querySelectorAll('[data-count]').forEach(el=>co.observe(el));
+</script>
+</body>
+</html>
