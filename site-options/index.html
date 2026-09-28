@@ -15,32 +15,49 @@
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font:400 15px/1.55 Archivo,"Helvetica Neue",Arial,sans-serif;-webkit-font-smoothing:antialiased}
 a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
 .wrap{max-width:1380px;margin-inline:auto;padding-inline:clamp(16px,4vw,44px)}
 header{padding-block:clamp(40px,6vw,88px) clamp(24px,3vw,40px);display:grid;gap:14px}
 .eyebrow{font:500 12px/1.2 "IBM Plex Mono",monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--turf)}
 h1{margin:0;font:900 clamp(44px,7vw,104px)/.9 "Big Shoulders Display",Impact,sans-serif;text-transform:uppercase;text-wrap:balance}
-.lede{color:var(--ink-2);max-width:62ch;font-size:17px}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:22px;padding-bottom:clamp(56px,8vw,112px)}
+h2.sec{margin:0 0 14px;font:900 clamp(30px,4vw,54px)/.95 "Big Shoulders Display",Impact,sans-serif;text-transform:uppercase}
+.lede{color:var(--ink-2);max-width:64ch;font-size:17px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:22px;padding-bottom:clamp(40px,6vw,72px)}
 .opt{background:var(--card);border:1px solid var(--line);border-radius:4px;overflow:hidden;display:grid;grid-template-rows:auto 1fr auto;transition:border-color .2s,transform .2s}
 .opt:hover{border-color:var(--turf);transform:translateY(-2px)}
-.preview{position:relative;aspect-ratio:16/10;overflow:hidden;background:#000;border-bottom:1px solid var(--line);display:block}
-.preview iframe{position:absolute;left:0;top:0;width:1280px;height:800px;border:0;transform:scale(var(--s));transform-origin:0 0;pointer-events:none}
-.preview::after{content:"";position:absolute;inset:0}
-.nopv{position:absolute;inset:0;display:grid;place-items:center;color:var(--ink-3);font:500 12px/1 "IBM Plex Mono",monospace;letter-spacing:.08em;text-transform:uppercase}
-.body{padding:18px 18px 8px;display:grid;gap:8px;align-content:start}
+.preview{display:block;aspect-ratio:16/10;overflow:hidden;background:#000;border-bottom:1px solid var(--line)}
+.preview img{width:100%;height:100%;object-fit:cover;object-position:top}
+.body{padding:18px 18px 8px;display:grid;gap:10px;align-content:start}
 .body h2{margin:0;font:800 30px/1 "Big Shoulders Display",Impact,sans-serif;text-transform:uppercase;display:flex;justify-content:space-between;align-items:baseline;gap:10px}
 .body h2 small{font:500 11px/1 "IBM Plex Mono",monospace;letter-spacing:.06em;color:var(--ink-3);text-transform:uppercase}
 .body p{margin:0;color:var(--ink-2);font-size:14px}
+.body p b{color:var(--ink);font-weight:600}
 .tags{display:flex;gap:6px;flex-wrap:wrap}
 .tag{font:500 10.5px/1 "IBM Plex Mono",monospace;letter-spacing:.06em;text-transform:uppercase;padding:5px 7px;border:1px solid var(--line);color:var(--ink-2);border-radius:2px}
+.verdict{border-top:1px solid var(--line);padding-top:12px;display:grid;gap:8px}
+.verdict .avg{display:flex;align-items:baseline;gap:8px}
+.verdict .avg b{font:900 34px/1 "Big Shoulders Display",Impact,sans-serif;color:var(--turf)}
+.verdict .avg span{font:500 11px/1 "IBM Plex Mono",monospace;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3)}
 .actions{display:flex;gap:8px;padding:12px 18px 18px;flex-wrap:wrap}
 .btn{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:0 18px;border-radius:2px;font:700 12px/1 Archivo,sans-serif;letter-spacing:.09em;text-transform:uppercase;border:1.5px solid transparent}
 .btn-turf{background:var(--turf);color:var(--turf-ink)}
 .btn-line{border-color:#3A403C;color:var(--ink)}
 .btn-line:hover{border-color:var(--ink)}
+.panel{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:clamp(24px,4vw,56px);padding-block:clamp(40px,6vw,72px);border-top:1px solid var(--line)}
+.tbl{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
+.tbl th,.tbl td{padding:10px 8px;border-bottom:1px solid var(--line);text-align:center}
+.tbl thead th{font:500 11px/1.2 "IBM Plex Mono",monospace;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3)}
+.tbl tbody th{text-align:left;font-weight:500;color:var(--ink-2)}
+.tbl td.hi{color:var(--turf);font-weight:700}
+.tbl tr.avg td{font:900 22px/1 "Big Shoulders Display",Impact,sans-serif}
+.tbl-wrap{overflow-x:auto}
+.rec{color:var(--ink-2);font-size:15.5px;display:grid;gap:12px}
+.rec p{margin:0}
+.needs{padding-block:clamp(40px,6vw,72px);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:clamp(24px,4vw,56px)}
+.needs ul{margin:0;padding-left:18px;color:var(--ink-2);display:grid;gap:8px;font-size:14.5px}
 .note{border-top:1px solid var(--line);padding-block:20px 36px;color:var(--ink-3);font:400 12.5px/1.6 "IBM Plex Mono",monospace}
 .note b{color:var(--ink-2);font-weight:500}
-.pair{color:var(--turf)}
+@media (max-width:860px){.panel{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -48,32 +65,68 @@ h1{margin:0;font:900 clamp(44px,7vw,104px)/.9 "Big Shoulders Display",Impact,san
   <header>
     <p class="eyebrow">gym.tcmfuel.com · website design options (previewed on shop.tcmfuel.com)</p>
     <h1>Five ways to say “the gym that gives a damn”</h1>
-    <p class="lede">Same facts, prices, timetable and photos on every one. Only the voice and the look change. Each option pairs with a kit-store option at <a href="https://shop.tcmfuel.com/options/" style="text-decoration:underline">shop.tcmfuel.com/options</a>, so the two sites can match. Previews are live and scaled down.</p>
+    <p class="lede">Same facts, prices, timetable and photos on every one. Only the voice and the look change. Each option pairs with a kit-store option at <a href="https://shop.tcmfuel.com/options/" style="text-decoration:underline">shop.tcmfuel.com/options</a>, so the two sites can match. Open any option and use it like the real site.</p>
   </header>
-  <div class="grid" id="grid"></div>
+
+  <div class="grid"><article class="opt" id="opt-current">
+    <a class="preview" href="https://gym.tcmfuel.com/" aria-label="Open the Current option"><img src="/site-options/previews/current.webp" alt="" width="800" height="500" loading="lazy" decoding="async"></a>
+    <div class="body"><h2>Current <small>live</small></h2><p>The homepage that is live now: video hero, ticker, stats, masonry gallery, pricing, timetable.</p>
+      <div class="tags"><span class="tag">Dark hero</span><span class="tag">Plus Jakarta Sans</span></div></div>
+    <div class="actions"><a class="btn btn-turf" href="https://gym.tcmfuel.com/">Open</a></div>
+  </article><article class="opt" id="opt-damn">
+    <a class="preview" href="/site-options/damn/" aria-label="Open the Damn option"><img src="/site-options/previews/damn.webp" alt="" width="800" height="500" loading="lazy" decoding="async"></a>
+    <div class="body"><h2>Damn <small>A</small></h2><p>An editorial, printed-programme page in serif type: numbered sections, a first-week itinerary and captioned photos on cream paper.</p>
+      <div class="tags"><span class="tag">Light</span><span class="tag">Serif</span><span class="tag">Magazine</span></div><div class="verdict"><div class="avg"><b>6.8</b><span>panel average</span></div>
+      <p><b>Best for:</b> Best if you want the page people remember and mention, and you are happy to trade a little first-glance clarity on phones to get it.</p>
+      <p><b>Watch out:</b> On a 375x667 phone the 68px header, the sticky Contents strip beneath it and the 76px bottom bar leave under 480px for content, and the hero (photo ordered above a 56px-minimum H1) runs to roughly a thousand pixels. The magazine dressing (Instrument Serif italics, drop caps, &#x27;Plan one / Plan two / Plan three&#x27;, &#x27;Wear the green&#x27;, a numbered Contents index) can read as boutique studio rather than a Plympton gym, and the masthead keeps the boast strip &#x27;Plymouth&#x27;s fastest growing gym · Best reviewed in Plymouth&#x27;. The judges split hardest on this option: the craft judge says the apparatus is the point, the voice judge says it is the problem.</p></div></div>
+    <div class="actions"><a class="btn btn-turf" href="/site-options/damn/">Open</a><a class="btn btn-line" href="https://shop.tcmfuel.com/options/chalk/">Matching kit store: Chalk</a></div>
+  </article><article class="opt" id="opt-floor">
+    <a class="preview" href="/site-options/floor/" aria-label="Open the Floor option"><img src="/site-options/previews/floor.webp" alt="" width="800" height="500" loading="lazy" decoding="async"></a>
+    <div class="body"><h2>Floor <small>B</small></h2><p>A dark, video-led page in stencil capitals with neon green, a Wednesday session timeline and glowing plan cards.</p>
+      <div class="tags"><span class="tag">Dark</span><span class="tag">Video</span><span class="tag">Stencil</span></div><div class="verdict"><div class="avg"><b>5.4</b><span>panel average</span></div>
+      <p><b>Best for:</b> Best for the HYROX crowd and people who already like a hard-training, dark gym look; it is the least suited to a first-timer.</p>
+      <p><b>Watch out:</b> It is the live site&#x27;s aesthetic turned up rather than a new idea: video hero, parallax, grain and scanline overlay, glowing stencil headline, neon ticker, count-up stats, glowing plan cards. The only words saying this is a gym are a 12px label. Price on a phone lives only in the moving ticker, and the mobile bar offers &#x27;Free session&#x27; and &#x27;Call&#x27; with no figure. The one original component, the Wednesday timeline, admits its HIIT band is &#x27;illustrative&#x27;, and the mid-page has no booking control from the floor grid through to the plans while the kit section uses the same green button as booking. Average 5.4 is barely above the live page.</p></div></div>
+    <div class="actions"><a class="btn btn-turf" href="/site-options/floor/">Open</a><a class="btn btn-line" href="https://shop.tcmfuel.com/options/blackout/">Matching kit store: Blackout</a></div>
+  </article><article class="opt" id="opt-neighbours">
+    <a class="preview" href="/site-options/neighbours/" aria-label="Open the Neighbours option"><img src="/site-options/previews/neighbours.webp" alt="" width="800" height="500" loading="lazy" decoding="async"></a>
+    <div class="body"><h2>Neighbours <small>C</small></h2><p>A warm, people-first page: named coaches, a three-step first visit and a plan helper, on a cream, rounded-card layout.</p>
+      <div class="tags"><span class="tag">Warm</span><span class="tag">Rounded</span><span class="tag">People</span></div><div class="verdict"><div class="avg"><b>7.0</b><span>panel average</span></div>
+      <p><b>Best for:</b> Best for the nervous beginner who needs to feel welcome before they will book; it is the page you would send to someone who says &#x27;I&#x27;m not really a gym person&#x27;.</p>
+      <p><b>Watch out:</b> It reads as a friendly-startup template (rounded white cards, soft shadows, pill captions) and could date quickly. The hero runs three animations at once (spinning badge, pulsing button, drawn underline) which undercuts the &#x27;no hard sell&#x27; line, and the group photo is buried under a 93% overlay. No pound sign appears until the plans, ninth block down, and the timetable chips are about 35px tall on a phone. Its win rests on voice and the booking path; two judges scored it only 6.</p></div></div>
+    <div class="actions"><a class="btn btn-turf" href="/site-options/neighbours/">Open</a><a class="btn btn-line" href="https://shop.tcmfuel.com/options/people/">Matching kit store: People</a></div>
+  </article><article class="opt" id="opt-sessions">
+    <a class="preview" href="/site-options/sessions/" aria-label="Open the Sessions option"><img src="/site-options/previews/sessions.webp" alt="" width="800" height="500" loading="lazy" decoding="async"></a>
+    <div class="body"><h2>Sessions <small>D</small></h2><p>The week&#x27;s timetable is the homepage: colour-coded classes, today highlighted, then a plain comparison table and free-session band.</p>
+      <div class="tags"><span class="tag">Light</span><span class="tag">Utility</span><span class="tag">Timetable</span></div><div class="verdict"><div class="avg"><b>6.8</b><span>panel average</span></div>
+      <p><b>Best for:</b> Best for someone who already knows they want coached classes and just needs to see what is on this week, on their phone, and book a free one.</p>
+      <p><b>Watch out:</b> There is no face above the fold: the first screen is a grid, and the first image is the Foundations promo graphic. Tuesday and Thursday sit as 300px columns holding one slot each on desktop. Both signature lines (&#x27;The gym that actually gives a damn&#x27;, &#x27;No egos. No judgement.&#x27;) are missing from the top of the page, so it could be any council gym in Devon. On phones the header &#x27;Free session&#x27; button is removed at 480px, the three summary plan cards have no join link, and the real join buttons sit inside a comparison table the script collapses below 760px. Nothing asks for the booking after the HYROX section.</p></div></div>
+    <div class="actions"><a class="btn btn-turf" href="/site-options/sessions/">Open</a><a class="btn btn-line" href="https://shop.tcmfuel.com/options/field/">Matching kit store: Field</a></div>
+  </article></div>
+
+  <section class="panel" id="verdict">
+    <div>
+      <p class="eyebrow">Independent panel</p>
+      <h2 class="sec">Five lenses, scored 1 to 10</h2>
+      <div class="tbl-wrap"><table class="tbl">
+        <thead><tr><th></th><th scope="col">Damn</th><th scope="col">Floor</th><th scope="col">Neighbours</th><th scope="col">Sessions</th></tr></thead>
+        <tbody><tr><th scope="row">First-visit clarity</th><td class="">7</td><td class="">5</td><td class="">6</td><td class="hi">8</td></tr><tr><th scope="row">Path to the free session</th><td class="">7</td><td class="">6</td><td class="hi">8</td><td class="">6</td></tr><tr><th scope="row">Brand voice</th><td class="">6</td><td class="">4</td><td class="hi">8</td><td class="">5</td></tr><tr><th scope="row">Phone usability</th><td class="">6</td><td class="">7</td><td class="">7</td><td class="hi">8</td></tr><tr><th scope="row">Distinctiveness</th><td class="hi">8</td><td class="">5</td><td class="">6</td><td class="">7</td></tr><tr class="avg"><th scope="row">Average</th><td>6.8</td><td>5.4</td><td>7.0</td><td>6.8</td></tr></tbody>
+      </table></div>
+      <p class="note" style="border:0;padding-block:12px 0">5 means no better than the live homepage. Scores came from five separate reviews that each read all four pages with one question in mind; the average is a guide, not a verdict.</p>
+    </div>
+    <div class="rec">
+      <p class="eyebrow">Recommendation</p>
+      <p>If the goal is more free-session bookings, pick neighbours. It scored highest on the booking path (8) and the voice (8), every booking control on it says the same thing (&#x27;Book a free session&#x27;) next to a reassurance line, the three-step &#x27;What to expect when you walk in&#x27; block answers the beginner&#x27;s real questions (where, who, what happens), and the mobile sticky bar is there from first paint. Its three fixes are small and mostly deletions: cut the spinning badge and the pulsing button, put &#x27;From £39.99 a month&#x27; in the hero facts, and give the chips a 44px tap target. Do those before it goes live; without the price fix a phone user scrolls past coaches, a timetable, nine photos and HYROX before seeing a pound sign. Sessions is the honest runner-up for the same goal: it is the clearest page on a phone and the timetable-as-hero is a genuinely good idea for a gym whose pitch is coached classes every day, but as built it loses the gym&#x27;s voice entirely and its phone plan cards are a dead end, so it needs the join buttons and the two signature lines put back before it would out-book neighbours. If the goal is standing out next to other Plymouth gyms, pick damn. Nothing else in the city looks like it, the first-week itinerary is the single best new component across all four options, and its photos are treated with more care than anywhere else. But fix the Contents strip on phones first, and accept that the voice judge and the craft judge will never agree on its magazine dressing: keep the serif and the captions, lose the drop caps and &#x27;Plan one/two/three&#x27;. A hybrid is worth it in one narrow form only: take neighbours as the base (its structure, copy, named coaches and plan helper) and drop sessions&#x27; colour-coded, today-highlighted timetable in place of neighbours&#x27; filterable card grid, with the price added to the hero. Both are single-file pages, both use Archivo for body text, and both mark up the classes as day cards with data-type attributes, so this is a day or two of careful work, not a rebuild. Do not try to fold damn&#x27;s serif editorial system into either of them; it is a different idea and the result would be neither. Floor should not be picked: it is the live page with the volume turned up, and it averaged 5.4 against a baseline of 5.</p>
+      <p class="eyebrow" style="margin-top:8px">Pairing with the kit store</p>
+      <p>damn pairs with Chalk (light serif): same cream paper, hairline rules and serif headlines, so the shop reads as another page of the same programme. floor pairs with Blackout (dark video): the dark ground, neon green and stencil type carry straight across. neighbours pairs with People (warm rounded): cream, rounded white cards and the Cosmo thread belong together. sessions pairs with Field (olive utility): the mono labels, 1.5px ink borders and noticeboard register are closest to a utility store; if Field&#x27;s olive clashes with the six class colours on the timetable, Chalk is the fallback because it shares the cream ground and restraint.</p>
+    </div>
+  </section>
+
+  <section class="needs" id="needs">
+    <div><p class="eyebrow">What only you can supply</p><h2 class="sec">To lift every option</h2><ul><li>Coach photos and one line each (Narcisse, Eliya, Kirsty, Brad, Ava): role, what they coach, one human fact. All four options show five bare names labelled &#x27;Coach&#x27;. Ask which coach takes Foundations on Wednesdays and name them in the Foundations block and the hero, so a beginner knows who they&#x27;ll meet.</li><li>Actual HIIT times (Mon/Wed/Fri) and the HYROX session slots. Every option prints &#x27;HIIT · Evening&#x27; with no time, and HYROX is &#x27;included&#x27; on plans but absent from the timetable. Also the true weekly class count: the timetable on every page lists 15 sessions while the stat strip says &#x27;20+&#x27;.</li><li>A 25-word description for each class (Circuits, Strength, HIIT, Yoga, Pilates, Foundations, HYROX): what it is, how long it runs, roughly how many people, who it suits, what to bring. No option explains any class; all assume the names are self-explanatory to a beginner.</li><li>What the free session actually is: length, format (tour plus a class, or a one-to-one), what to wear and bring, and which hours it can be booked. Used for a &#x27;what happens at your free session&#x27; block and FAQ on whichever option wins; today it is a Calendly link and a slogan.</li><li>Staffed / front-desk hours and the 24/7 entry method (fob, app, PIN). All pages present &#x27;24/7&#x27; as if a first-timer can walk in at 3am and meet someone. Used in the info strip, FAQ and the &#x27;collect kit from the front desk&#x27; line.</li><li>The members app name plus App Store and Google Play links. &#x27;Members app&#x27; is listed as a plan feature on every option with no name and no link. If it is the PushPress member app, say so and link it.</li><li>Real Google review data: the live review URL (the g.page/r/transform-fitness-plympton/review link on every page looks like a placeholder), the review count to sit beside &#x27;5 stars&#x27;, and 4 to 6 verbatim reviews with names as shown on Google and dates. Confirm or drop &#x27;Member since 2024&#x27; on Sarah, Mark and Laura; the repo docs say the gym opened Nov 2025. Provide evidence for &#x27;best reviewed in Plymouth&#x27; and &#x27;fastest growing&#x27;, or soften both.</li><li>Member photos with written consent, specifically: two or three beginners (including women and over-50s), Foundations actually running (sessions uses a promo graphic), a race-day team shot, plus exterior, entrance and car-park photos and a night shot to prove 24/7. All four options recycle the same twelve images and none shows the building on Langage Industrial Estate.</li><li>HYROX specifics: the next two race dates and cities the club is training for, any team name, whether beginners can join HYROX sessions, and whether Hybrid covers them. Options contradict each other: damn says HYROX is covered by Hybrid&#x27;s sessions; neighbours and sessions say it is Unlimited only.</li><li>An 80 to 120 word founder story from Mike with a photo: why he opened it, when (Nov 2025), why Plympton. No option names the owner even though the free-session Calendly is his. Used as a short &#x27;from the owner&#x27; block near the reviews.</li><li>Plan fine print: yearly plan prices, any joining fee, notice period behind &#x27;cancel anytime&#x27;, minimum age, student / NHS / forces / couples discounts (Plymouth is a forces city), PT prices or packages, and how a day pass is bought. &#x27;No hidden fees&#x27; appears on every page with none of this stated.</li><li>Facilities list for the FAQ: changing rooms, showers, lockers, toilets, step-free access, water. Nothing on any option answers the questions a nervous beginner asks before a first visit.</li><li>Brand decision: three straplines are competing for the hero (&#x27;gives a damn&#x27;, &#x27;No egos. No judgement.&#x27;, &#x27;Everyone knows your name here&#x27;). Pick the one to lead with and which become supporting lines, so the winning option can be tightened rather than carrying all three.</li></ul></div>
+    <div><p class="eyebrow">Still weak on all four</p><h2 class="sec">Known gaps</h2><ul><li>Coaches are names only on all four: no faces, no roles, no specialisms, no &#x27;who takes Foundations&#x27;. For a beginner deciding whether to book, the people are the product and none of the pages shows them.</li><li>HIIT has no time anywhere (&#x27;Evening&#x27;), HYROX sessions are not on the timetable despite being sold as a plan feature, and every page&#x27;s &#x27;20+ classes a week&#x27; stat sits above a timetable showing 15. Floor even labels its HIIT band &#x27;illustrative&#x27;.</li><li>No option describes a single class. A first-timer cannot tell Circuits from HIIT from Strength, how long a session is, how many people are in it, or what to bring.</li><li>The free session is a Calendly link plus &#x27;walk in, train hard&#x27;. None says how long it is, whether it is a class or a tour, what to wear, who you&#x27;ll meet, or when it can happen. Sessions&#x27; four-step strip is the closest and still says nothing concrete.</li><li>&#x27;24/7&#x27; is everywhere; staffed hours are nowhere. A beginner is told the door is always open but not when a human is behind the desk to collect kit, take a day pass or run the free session.</li><li>Personal training gets no homepage presence beyond a nav link on all four, despite being one of three revenue lines and &#x27;one-to-one PT&#x27; appearing in the expert-coaching copy.</li><li>Testimonials are lifted unchanged from the baseline: initials for avatars, no photos, &#x27;Member since 2024&#x27; on three quotes for a gym that opened Nov 2025, no review count beside &#x27;5 stars&#x27;, and &#x27;best reviewed in Plymouth&#x27; and &#x27;fastest growing&#x27; with nothing behind them. The Google review URL looks invented.</li><li>Plan facts disagree across options on whether Hybrid includes HYROX, yoga and Pilates. Whichever wins, the plan card, the FAQ and the HYROX block need to say the same thing, and only Chris can settle which is true.</li></ul></div>
+  </section>
+
   <p class="note"><b>How they're built:</b> each option is one self-contained HTML file in <code>/options/&lt;name&gt;/</code> using the site's existing photos. The live homepage is untouched. These previews are hosted here until the gym site's own deploy runs; the nav links go to the live gym site. None of these pages are indexed by Google.</p>
 </div>
-<script>
-const OPTIONS = [
-  { slug: '', name: 'Current', tag: 'live', pitch: 'The homepage that is live now: video hero, ticker, stats, masonry gallery, pricing, timetable.', tags: ['Dark hero', 'Plus Jakarta Sans'], pair: '' },
-  { slug: 'damn', name: 'Damn', tag: 'A', pitch: 'Editorial. The tagline as a giant serif headline on chalk paper, numbered reasons, a typographic timetable, pull-quote reviews.', tags: ['Light', 'Serif', 'Magazine'], pair: 'Chalk' },
-  { slug: 'floor', name: 'Floor', tag: 'B', pitch: 'Cinematic. Video hero, stencil “No egos. No judgement.”, big numbers, the HYROX block in solid green, photo grid of the floor.', tags: ['Dark', 'Video', 'Stencil'], pair: 'Blackout' },
-  { slug: 'neighbours', name: 'Neighbours', tag: 'C', pitch: 'Community. “Everyone knows your name here.” Start-with-Foundations block, coaches by name, rounded cards, Cosmo in the footer.', tags: ['Warm', 'Rounded', 'People'], pair: 'People' },
-  { slug: 'sessions', name: 'Sessions', tag: 'D', pitch: 'Timetable-first. The week is the hero, today’s column highlighted, classes colour-coded; for people who pick a gym by what’s on.', tags: ['Light', 'Utility', 'Timetable'], pair: 'Field' },
-];
-const grid = document.getElementById('grid');
-for (const o of OPTIONS) {
-  const href = o.slug ? '/site-options/' + o.slug + '/' : 'https://gym.tcmfuel.com/';
-  const el = document.createElement('article');
-  el.className = 'opt';
-  el.innerHTML = `
-    <a class="preview" href="${href}" aria-label="Open the ${o.name} option">${o.slug ? '<iframe src="' + href + '" title="' + o.name + ' preview" loading="lazy" tabindex="-1" aria-hidden="true"></iframe>' : '<span class="nopv">Live homepage · gym.tcmfuel.com</span>'}</a>
-    <div class="body"><h2>${o.name} <small>${o.tag}</small></h2><p>${o.pitch}${o.pair ? ` <span class="pair">Pairs with the “${o.pair}” kit-store option.</span>` : ''}</p><div class="tags">${o.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div></div>
-    <div class="actions"><a class="btn btn-turf" href="${href}">Open</a>${o.pair ? `<a class="btn btn-line" href="https://shop.tcmfuel.com/options/${o.pair.toLowerCase()}/">Matching kit store</a>` : ''}</div>`;
-  grid.appendChild(el);
-}
-const fit = () => document.querySelectorAll('.preview').forEach(p => p.style.setProperty('--s', (p.clientWidth / 1280).toFixed(4)));
-fit(); addEventListener('resize', fit);
-</script>
 </body>
 </html>
