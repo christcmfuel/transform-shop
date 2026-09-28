@@ -548,6 +548,8 @@ input[type=search]::-webkit-search-cancel-button{-webkit-appearance:none;appeara
 .timeline>div{padding:18px 18px 0 0;display:grid;gap:6px;position:relative}
 .timeline>div::before{content:"";position:absolute;top:-6px;left:0;width:11px;height:11px;border-radius:50%;background:var(--band-3);border:2px solid var(--band-line)}
 .timeline>div.done::before{background:var(--turf);border-color:var(--turf)}
+.timeline>div.now::before{border-color:var(--turf);box-shadow:0 0 0 4px rgba(59,227,91,.22)}
+.timeline>div.now b{color:var(--turf)}
 .timeline b{font-weight:600}
 .timeline span{font-size:13px;color:var(--band-ink-2)}
 @media (max-width:640px){.timeline{grid-template-columns:1fr}.timeline>div{padding:14px 0 14px 22px}.timeline>div::before{top:18px}}
@@ -606,7 +608,7 @@ input[type=search]::-webkit-search-cancel-button{-webkit-appearance:none;appeara
 <div id="app"></div>
 <noscript><p style="padding:24px">The Transform Fitness kit store needs JavaScript to run.</p></noscript>
 <script src="vendor/htm-preact-3.1.1.umd.js"></script>
-<script src="catalog.js?v=20260928"></script>
-<script src="app.js?v=20260928"></script>
+<script src="catalog.js?v=20260929a"></script>
+<script src="app.js?v=20260929a"></script>
 </body>
 </html>

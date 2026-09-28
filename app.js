@@ -16,6 +16,20 @@ const COLOURWAYS = PRODUCTS.reduce((n, p) => n + p.variants.length, 0);
 
 const FREE_DELIVERY_OVER = 60;
 const DELIVERY_FEE = 4.95;
+// Payments run through the Transform Hub API (Stripe Checkout). If it can't be
+// reached the store still works and falls back to a request-only checkout.
+const API_BASE = (() => { try { return (localStorage.getItem('tf.api') || 'https://app.tcmfuel.com').replace(/[/]+$/, ''); } catch (e) { return 'https://app.tcmfuel.com'; } })();
+const PAY = { checked: false, stripe: false, fee: DELIVERY_FEE, freeOver: FREE_DELIVERY_OVER };
+const timeoutSignal = ms => (typeof AbortSignal !== 'undefined' && AbortSignal.timeout ? AbortSignal.timeout(ms) : undefined);
+// Coming back from Stripe: ?paid=<session> confirms, ?cancelled=<ref> returns to the bag.
+const PAID_RETURN = (() => {
+  try {
+    const q = new URLSearchParams(location.search);
+    const session = q.get('paid') || ''; const cancelled = q.get('cancelled') || '';
+    if (session || cancelled) history.replaceState(null, '', location.pathname + location.hash);
+    return { session, cancelled };
+  } catch (e) { return { session: '', cancelled: '' }; }
+})();
 const FEATURED = ['back-mark-tee', 'classic-hoodie', 'performance-vest', 'core-sports-bra', 'team-tee', 'heavyweight-crew', 'training-shorts', 'training-holdall'];
 const CAT_COVER = { tees: 'back-mark-tee', vests: 'performance-vest', bras: 'core-sports-bra', hoodies: 'classic-hoodie', sweats: 'heavyweight-crew', shorts: 'training-shorts', outerwear: 'padded-gilet', headwear: 'air-mesh-cap', bags: 'training-holdall' };
 const TAGS = {
@@ -59,6 +73,7 @@ const store = createStore({
   orders: LS.get('tf.orders', []),
   recent: LS.get('tf.recent', []).filter(s => BY_SLUG[s]),
   fit: LS.get('tf.fit', {}),
+  pay: { checked: false, stripe: false },
   ui: { ...CLOSED, query: '' },
   toasts: [],
   bumps: 0,
@@ -118,8 +133,30 @@ const A = {
     setTimeout(() => A.dismiss(id), t.undo ? 6500 : 4200);
   },
   dismiss(id) { store.set(s => ({ ...s, toasts: s.toasts.filter(t => t.id !== id) })); },
-  placeOrder(order) { store.set(s => ({ ...s, orders: [order, ...s.orders].slice(0, 25), bag: [] })); },
+  placeOrder(order, keepBag = false) { store.set(s => ({ ...s, orders: [order, ...s.orders.filter(o => o.ref !== order.ref)].slice(0, 25), bag: keepBag ? s.bag : [] })); },
+  // Live status came back from the API: keep the local copy in step and empty
+  // the bag the first time an order turns out to be paid.
+  orderSettled(ref, status) {
+    store.set(s => {
+      const prev = s.orders.find(o => o.ref === ref);
+      const wasPending = !prev || prev.status === 'pending';
+      const paidNow = !['pending', 'cancelled', 'request'].includes(status);
+      return { ...s, orders: prev ? s.orders.map(o => (o.ref === ref ? { ...o, status } : o)) : s.orders, bag: wasPending && paidNow ? [] : s.bag };
+    });
+  },
+  setPay(p) { Object.assign(PAY, p); store.set(s => ({ ...s, pay: { ...s.pay, ...p } })); },
 };
+
+// Ask the API whether card payments are on. Resolves either way; the store
+// degrades to a request-only checkout when it can't get an answer.
+const payReady = (async () => {
+  try {
+    const r = await fetch(API_BASE + '/api/shop/config', { signal: timeoutSignal(7000) });
+    if (!r.ok) throw new Error('config ' + r.status);
+    const c = await r.json();
+    A.setPay({ checked: true, stripe: !!(c.stripe && c.catalogueOk), fee: (c.deliveryPence ?? 495) / 100, freeOver: (c.freeDeliveryOverPence ?? 6000) / 100 });
+  } catch (e) { A.setPay({ checked: true, stripe: false }); }
+})();
 
 const Ctx = createContext(store.get());
 const useS = () => useContext(Ctx);
@@ -190,6 +227,7 @@ const PATHS = {
   ext: '<path d="M14 5h5v5M19 5l-8 8M18 14v5H5V6h5"/>',
   pin: '<path d="M12 21s-6-6.2-6-11a6 6 0 0 1 12 0c0 4.8-6 11-6 11Z"/><circle cx="12" cy="10" r="2.2"/>',
   box: '<path d="M4 7.5 12 4l8 3.5v9L12 20l-8-3.5z"/><path d="m4 7.5 8 3.5 8-3.5M12 11v9"/>',
+  lock: '<rect x="5" y="11" width="14" height="10" rx="1.5"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>',
 };
 const Icon = (name, cls = '') => html`<svg class=${'ico ' + cls} viewBox="0 0 24 24" aria-hidden="true" dangerouslySetInnerHTML=${{ __html: PATHS[name] }}></svg>`;
 
@@ -199,7 +237,7 @@ function bagLines(bag) {
 }
 function totals(lines, method) {
   const sub = Math.round(lines.reduce((t, l) => t + l.price * l.qty, 0) * 100) / 100;
-  const delivery = method === 'delivery' ? (sub >= FREE_DELIVERY_OVER ? 0 : DELIVERY_FEE) : 0;
+  const delivery = method === 'delivery' ? (sub >= PAY.freeOver ? 0 : PAY.fee) : 0;
   return { sub, delivery, total: Math.round((sub + delivery) * 100) / 100, count: lines.reduce((t, l) => t + l.qty, 0) };
 }
 function searchProducts(q) {
@@ -587,13 +625,14 @@ function Home() {
 
 // ---------------------------------------------------------------- footer
 function Footer() {
+  const s = useS();
   return html`<footer class="band rubber foot">
     <div class="wrap">
       <div class="foot-cols">
         <div style="display:grid;gap:16px;align-content:start">
           <span class="brand"><span class="mk" style="width:44px;color:var(--turf)"></span><span class="wm" style="width:190px;color:var(--band-ink)"></span></span>
           <p style="color:var(--band-ink-2);max-width:34ch">Official kit of ${GYM.name}, ${GYM.tagline}. Printed and embroidered to order.</p>
-          <span class="preview-flag">Preview store</span>
+          ${!s.pay.stripe && html`<span class="preview-flag">${s.pay.checked ? 'Card payments offline' : 'Checking payments'}</span>`}
         </div>
         <div><h4>Shop</h4><ul>${CATS.map(c => html`<li><${Link} to=${'shop-' + c.slug}>${c.label}<//></li>`)}</ul></div>
         <div><h4>Help</h4><ul>
@@ -891,6 +930,7 @@ function ProductPage({ route }) {
           <div>${Icon('clock')}<span><b>Made to order.</b> Printed or embroidered for you, usually ready in 2 to 3 weeks.</span></div>
           <div>${Icon('store')}<span><b>Free collection</b> from the front desk at 9B Meadow Close, Plympton.</span></div>
           <div>${Icon('truck')}<span><b>UK delivery ${gbp(DELIVERY_FEE)}</b>, free on orders over ${gbp(FREE_DELIVERY_OVER)}.</span></div>
+          ${s.pay.stripe && html`<div>${Icon('lock')}<span><b>Pay by card, Apple Pay or Google Pay.</b> Secure checkout by Stripe.</span></div>`}
         </div>
 
         <div class="acc">
@@ -1043,13 +1083,13 @@ function SearchPane() {
 
 // ---------------------------------------------------------------- checkout
 const EMPTY_FORM = { first: '', last: '', email: '', phone: '', method: 'collect', line1: '', line2: '', town: '', postcode: '', notes: '', remember: false };
-function validate(f) {
+function validate(f, stripe) {
   const e = {};
   if (!f.first.trim()) e.first = 'Enter your first name';
   if (!f.last.trim()) e.last = 'Enter your last name';
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(f.email.trim())) e.email = 'Enter an email address like name@example.com';
   if (f.phone.trim() && !/^(\+44\s?|0)[\d\s]{9,12}$/.test(f.phone.trim())) e.phone = 'Enter a UK phone number, like 07700 900123';
-  if (f.method === 'delivery') {
+  if (f.method === 'delivery' && !stripe) {
     if (!f.line1.trim()) e.line1 = 'Enter the first line of your address';
     if (!f.town.trim()) e.town = 'Enter your town or city';
     if (!/^[A-Z]{1,2}\d[A-Z\d]?\s*\d[A-Z]{2}$/i.test(f.postcode.trim())) e.postcode = 'Enter a UK postcode, like PL7 5EX';
@@ -1068,36 +1108,62 @@ function Field({ id, label, hint, f, set, errs, type = 'text', auto, full, input
 function Checkout() {
   const s = useS();
   const lines = bagLines(s.bag);
+  const stripe = s.pay.stripe;
   const [f, setF] = useState(() => ({ ...EMPTY_FORM, ...LS.get('tf.contact', {}) }));
   const [errs, setErrs] = useState({});
   const [submitted, setSubmitted] = useState(false);
+  const [paying, setPaying] = useState(false);
+  const [payErr, setPayErr] = useState('');
   const set = (k, val) => setF(x => ({ ...x, [k]: val }));
-  useEffect(() => { if (submitted) setErrs(validate(f)); }, [f, submitted]);
+  useEffect(() => { if (submitted) setErrs(validate(f, stripe)); }, [f, submitted, stripe]);
   const t = totals(lines, f.method);
   if (!lines.length) {
     return html`<div class="wrap"><div class="page-hd"><p class="eyebrow">Checkout</p><h1 class="h-lg">Your bag is empty</h1><p class="muted">Add something to your bag to check out.</p><div><${Link} class="btn btn-ink" to="shop">Shop the kit<//></div></div></div>`;
   }
+  const customer = () => ({ first: f.first.trim(), last: f.last.trim(), email: f.email.trim(), phone: f.phone.trim() });
+  const orderLines = () => lines.map(l => ({ vid: l.vid, slug: l.p.slug, size: l.size, qty: l.qty, price: l.price, name: l.p.name, label: l.v.label, url: l.v.url }));
+  // Stripe path: the API prices the bag from the catalogue, creates the order
+  // and hands back a Stripe Checkout URL. The bag is kept until the payment
+  // is confirmed, so cancelling on Stripe loses nothing.
+  const startPayment = async () => {
+    setPaying(true); setPayErr('');
+    try {
+      await payReady;
+      if (!PAY.stripe) throw new Error('Card payments are unavailable right now. Please try again in a few minutes.');
+      const r = await fetch(API_BASE + '/api/shop/checkout', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, signal: timeoutSignal(15000),
+        body: JSON.stringify({ lines: lines.map(l => ({ vid: l.vid, size: l.size, qty: l.qty })), method: f.method, customer: customer(), notes: f.notes.trim() }),
+      });
+      const data = await r.json().catch(() => ({}));
+      if (!r.ok || !data.url) throw new Error(data.error || 'Could not start the payment. Please try again.');
+      A.placeOrder({ ref: data.ref, sessionId: data.sessionId, status: 'pending', at: new Date().toISOString(), method: f.method, ...customer(), address: null, notes: f.notes.trim(), lines: orderLines(), sub: t.sub, delivery: t.delivery, total: t.total }, true);
+      location.assign(data.url);
+    } catch (e) {
+      setPayErr(e && e.message ? e.message : 'Could not start the payment.');
+      setPaying(false);
+    }
+  };
   const submit = e => {
     e.preventDefault();
-    const e2 = validate(f); setErrs(e2); setSubmitted(true);
+    const e2 = validate(f, stripe); setErrs(e2); setSubmitted(true);
     const first = Object.keys(e2)[0];
     if (first) { const el = document.getElementById('co-' + first); if (el) { el.focus(); el.scrollIntoView({ block: 'center', behavior: 'smooth' }); } return; }
-    const order = {
-      ref: makeRef(), at: new Date().toISOString(), method: f.method,
-      first: f.first.trim(), last: f.last.trim(), email: f.email.trim(), phone: f.phone.trim(),
-      address: f.method === 'delivery' ? { line1: f.line1.trim(), line2: f.line2.trim(), town: f.town.trim(), postcode: f.postcode.trim().toUpperCase() } : null,
-      notes: f.notes.trim(),
-      lines: lines.map(l => ({ vid: l.vid, slug: l.p.slug, size: l.size, qty: l.qty, price: l.price, name: l.p.name, label: l.v.label, url: l.v.url })),
-      sub: t.sub, delivery: t.delivery, total: t.total,
-    };
     if (f.remember) LS.set('tf.contact', { ...f, notes: '' }); else LS.del('tf.contact');
+    if (stripe) { startPayment(); return; }
+    // Fallback: no card payments available, so record a request and point at the current store.
+    const order = {
+      ref: makeRef(), legacy: true, status: 'request', at: new Date().toISOString(), method: f.method, ...customer(),
+      address: f.method === 'delivery' ? { line1: f.line1.trim(), line2: f.line2.trim(), city: f.town.trim(), postcode: f.postcode.trim().toUpperCase() } : null,
+      notes: f.notes.trim(), lines: orderLines(), sub: t.sub, delivery: t.delivery, total: t.total,
+    };
     A.placeOrder(order);
     nav('order-' + order.ref);
   };
-  const radio = (val, title, sub, price, icon) => html`<label class=${'rcard' + (f.method === val ? ' on' : '')}>
+  const radio = (val, title, sub, price) => html`<label class=${'rcard' + (f.method === val ? ' on' : '')}>
     <input type="radio" name="method" value=${val} checked=${f.method === val} onChange=${() => set('method', val)} />
     <span class="rd"></span><span><b>${title}</b><span>${sub}</span></span><span class="p">${price}</span>
   </label>`;
+  const remember = html`<label class="fopt" style="margin:0"><input type="checkbox" checked=${f.remember} onChange=${e => set('remember', e.target.checked)} /><span class="box">${Icon('check')}</span><span>Remember my details on this device</span></label>`;
   return html`<div class="wrap">
     <div class="page-hd" style="padding-bottom:18px"><nav class="crumbs" aria-label="Breadcrumb"><${Link} to="home">Home<//><span>/</span><button type="button" onClick=${() => A.ui({ bag: true })}>Bag</button><span>/</span><span>Checkout</span></nav><h1 class="h-lg">Checkout</h1></div>
     <div class="co">
@@ -1106,27 +1172,36 @@ function Checkout() {
           <div class="fields">
             <${Field} id="first" label="First name" auto="given-name" f=${f} set=${set} errs=${errs} />
             <${Field} id="last" label="Last name" auto="family-name" f=${f} set=${set} errs=${errs} />
-            <${Field} id="email" label="Email" type="email" auto="email" inputMode="email" full f=${f} set=${set} errs=${errs} />
+            <${Field} id="email" label="Email" hint="for your receipt" type="email" auto="email" inputMode="email" full f=${f} set=${set} errs=${errs} />
             <${Field} id="phone" label="Phone" hint="optional" type="tel" auto="tel" inputMode="tel" full f=${f} set=${set} errs=${errs} />
           </div>
         </section>
         <section class="co-sec" aria-labelledby="c2"><h2 class="h-sm" id="c2"><span class="n">2</span>Collection or delivery</h2>
           <div class="radios" role="radiogroup" aria-labelledby="c2">
             ${radio('collect', 'Collect from the gym', `Front desk, ${GYM.address}`, 'Free')}
-            ${radio('delivery', 'UK delivery', `Posted once it's made. Free over ${gbp(FREE_DELIVERY_OVER)}.`, t.sub >= FREE_DELIVERY_OVER ? 'Free' : gbp(DELIVERY_FEE))}
+            ${radio('delivery', 'UK delivery', `Posted once it's made. Free over ${gbp(PAY.freeOver)}.`, t.sub >= PAY.freeOver ? 'Free' : gbp(PAY.fee))}
           </div>
-          ${f.method === 'delivery' && html`<div class="fields">
-            <${Field} id="line1" label="Address line 1" auto="address-line1" full f=${f} set=${set} errs=${errs} />
-            <${Field} id="line2" label="Address line 2" hint="optional" auto="address-line2" full f=${f} set=${set} errs=${errs} />
-            <${Field} id="town" label="Town or city" auto="address-level2" f=${f} set=${set} errs=${errs} />
-            <${Field} id="postcode" label="Postcode" auto="postal-code" f=${f} set=${set} errs=${errs} />
-          </div>`}
+          ${f.method === 'delivery' && (stripe
+            ? html`<p class="small muted">${Icon('truck', 'ico-sm')} You'll enter your delivery address on the secure payment page.</p>`
+            : html`<div class="fields">
+              <${Field} id="line1" label="Address line 1" auto="address-line1" full f=${f} set=${set} errs=${errs} />
+              <${Field} id="line2" label="Address line 2" hint="optional" auto="address-line2" full f=${f} set=${set} errs=${errs} />
+              <${Field} id="town" label="Town or city" auto="address-level2" f=${f} set=${set} errs=${errs} />
+              <${Field} id="postcode" label="Postcode" auto="postal-code" f=${f} set=${set} errs=${errs} />
+            </div>`)}
           <div class="field"><label for="co-notes">Order notes <span>optional</span></label><textarea id="co-notes" value=${f.notes} onInput=${e => set('notes', e.target.value)} placeholder="Anything the front desk should know"></textarea></div>
         </section>
         <section class="co-sec" aria-labelledby="c3"><h2 class="h-sm" id="c3"><span class="n">3</span>Payment</h2>
-          <div class="note">${Icon('info')}<span><b>This is a preview of the new store.</b> Placing an order here doesn't take payment or send anything to the gym. The next screen links each item to the current store so you can order it today.</span></div>
-          <label class="fopt" style="margin:0"><input type="checkbox" checked=${f.remember} onChange=${e => set('remember', e.target.checked)} /><span class="box">${Icon('check')}</span><span>Remember my details on this device</span></label>
-          <button type="submit" class="btn btn-turf btn-block">Place order · ${gbp(t.total)}</button>
+          ${stripe ? html`
+            <div class="note">${Icon('lock')}<span><b>Secure card payment.</b> You'll enter your card on Stripe's payment page. Apple Pay and Google Pay work there too, and there's a box for a promo code.</span></div>
+            ${remember}
+            <button type="submit" class="btn btn-turf btn-block" disabled=${paying}>${paying ? 'Opening secure payment…' : `Pay ${gbp(t.total)} by card`} ${!paying && Icon('arrowR')}</button>
+            ${payErr && html`<p class="size-err" role="alert">${payErr}</p>`}
+            <p class="small muted" style="text-align:center">Payments are processed by Stripe. We never see your card details.</p>`
+          : html`
+            <div class="note">${Icon('info')}<span><b>${s.pay.checked ? "Card payments aren't available right now." : 'Checking card payments…'}</b> You can still send your order as a request: the next screen links each item to the current store so you can pay there today.</span></div>
+            ${remember}
+            <button type="submit" class="btn btn-turf btn-block">Send order request · ${gbp(t.total)}</button>`}
           ${submitted && Object.keys(errs).length > 0 && html`<p class="size-err" role="alert">Check the ${plural(Object.keys(errs).length, 'field')} marked above.</p>`}
         </section>
       </form>
@@ -1149,46 +1224,118 @@ function Checkout() {
 
 // ---------------------------------------------------------------- order pages
 const fmtDate = iso => { try { return new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }); } catch (e) { return iso; } };
+const ORDER_STATUS_LABEL = { pending: 'Unpaid', request: 'Request', paid: 'Paid', making: 'Being made', ready: 'Ready', collected: 'Collected', dispatched: 'Dispatched', cancelled: 'Cancelled', refunded: 'Refunded' };
+// Merge the API's view of an order over the copy kept in this browser.
+function mergeLive(local, live) {
+  if (!live) return local;
+  return {
+    ...(local || {}), ref: live.ref, status: live.status, method: live.method,
+    first: live.customer.first, last: live.customer.last, email: live.customer.email, phone: live.customer.phone,
+    address: live.address, notes: live.notes,
+    lines: live.items.map(i => ({ vid: i.vid, name: i.name, label: i.label, size: i.size, qty: i.qty, price: i.unitPence / 100 })),
+    sub: live.subtotalPence / 100, delivery: live.deliveryPence / 100, discount: live.discountPence / 100, total: live.totalPence / 100,
+    promoCode: live.promoCode, at: live.createdAt, paidAt: live.paidAt, readyAt: live.readyAt, completedAt: live.completedAt,
+  };
+}
 function OrderPage({ route }) {
   const s = useS();
-  const o = s.orders.find(x => x.ref === route.ref);
-  if (!o) return html`<div class="wrap"><div class="page-hd"><p class="eyebrow">Order ${route.ref}</p><h1 class="h-lg">We can't find that order</h1><p class="muted">Orders are kept in the browser they were placed from. Try the device you used, or look in your orders.</p><div><${Link} class="btn btn-ink" to="orders">Your orders<//></div></div></div>`;
+  const local = s.orders.find(x => x.ref === route.ref) || null;
+  const sessionId = (local && local.sessionId) || PAID_RETURN.session || '';
+  const [live, setLive] = useState(null);
+  const [lookup, setLookup] = useState(sessionId ? 'loading' : 'none');
+  useEffect(() => {
+    if (!sessionId) return;
+    let stop = false; let tries = 0;
+    const tick = async () => {
+      try {
+        const r = await fetch(`${API_BASE}/api/shop/orders/${encodeURIComponent(route.ref)}?session=${encodeURIComponent(sessionId)}`, { signal: timeoutSignal(9000) });
+        if (!r.ok) throw new Error('lookup ' + r.status);
+        const o = await r.json();
+        if (stop) return;
+        setLive(o); setLookup('ok');
+        A.orderSettled(route.ref, o.status);
+        // Straight back from Stripe the webhook may still be in flight: keep asking for a bit.
+        if (o.status === 'pending' && PAID_RETURN.session && tries++ < 6) setTimeout(tick, 2500);
+      } catch (e) { if (!stop) setLookup(prev => (prev === 'ok' ? 'ok' : 'error')); }
+    };
+    tick();
+    return () => { stop = true; };
+  }, [route.ref, sessionId]);
+  if (!local && !live) {
+    if (lookup === 'loading') return html`<div class="wrap"><div class="page-hd"><p class="eyebrow">Order ${route.ref}</p><h1 class="h-lg">Confirming your payment…</h1></div></div>`;
+    return html`<div class="wrap"><div class="page-hd"><p class="eyebrow">Order ${route.ref}</p><h1 class="h-lg">We can't find that order</h1><p class="muted">Orders are kept in the browser they were placed from. Try the device you used, or look in your orders.</p><div><${Link} class="btn btn-ink" to="orders">Your orders<//></div></div></div>`;
+  }
+  const o = mergeLive(local, live);
+  const status = o.status || (o.legacy ? 'request' : 'pending');
   const collect = o.method === 'collect';
+  const confirming = status === 'pending' && lookup === 'loading';
+  const stage = { pending: 0, cancelled: 0, refunded: 0, request: 1, paid: 1, making: 2, ready: 3, collected: 4, dispatched: 4 }[status] ?? 1;
+  const headline = confirming ? 'Confirming your payment…'
+    : status === 'pending' ? 'Payment not completed'
+    : status === 'cancelled' ? 'This order was cancelled'
+    : status === 'refunded' ? 'This order was refunded'
+    : status === 'making' ? 'Your kit is being made'
+    : status === 'ready' ? (collect ? 'Ready to collect' : 'Ready to post')
+    : status === 'collected' ? 'Collected. Enjoy it.'
+    : status === 'dispatched' ? 'On its way'
+    : `Thanks, ${o.first}.`;
+  const lede = confirming ? 'One moment while we check with Stripe.'
+    : status === 'pending' ? "We haven't received a payment for this order. Your bag is still here if you'd like to try again."
+    : status === 'cancelled' ? 'Nothing was charged. Your bag is still here if you want to start again.'
+    : status === 'refunded' ? 'The refund goes back to the card you paid with; banks take a few days to show it.'
+    : status === 'request' ? `${collect ? 'Your kit would be at the front desk in Plympton once made.' : `Your kit would be posted to ${o.address ? o.address.postcode : 'you'} once made.`} This was a request, so nothing has been charged.`
+    : status === 'ready' ? (collect ? `Your kit is waiting at the front desk, ${GYM.address}.` : 'Your kit is packed and will be posted shortly.')
+    : status === 'dispatched' ? `Posted to ${o.address ? o.address.postcode : 'you'}.`
+    : status === 'collected' ? 'Thanks for supporting the gym.'
+    : `${collect ? "Your kit will be at the front desk in Plympton once it's made." : `Your kit will be posted to ${o.address ? o.address.postcode : 'you'} once it's made.`} A receipt is on its way to ${o.email}.`;
+  const step = (n, label, sub) => html`<div class=${stage > n ? 'done' : stage === n ? 'now' : ''}><b>${label}</b><span>${sub}</span></div>`;
   return html`<div>
     <section class="band rubber"><div class="wrap conf-hd">
-      <p class="eyebrow">Order placed · ${fmtDate(o.at)}</p>
-      <h1 class="h-xl">Thanks, ${o.first}.</h1>
+      <p class="eyebrow">${status === 'request' ? 'Order request' : 'Order'} · ${fmtDate(o.at)}${o.paidAt ? ` · paid ${fmtDate(o.paidAt)}` : ''}</p>
+      <h1 class="h-xl">${headline}</h1>
       <p class="ref">${o.ref}</p>
-      <p class="lede">${collect ? `Your kit will be at the front desk in Plympton once it's made.` : `Your kit will be posted to ${o.address.postcode} once it's made.`} This is a preview, so nothing has been charged or sent yet.</p>
-      <div class="timeline">
-        <div class="done"><b>Order placed</b><span>${fmtDate(o.at)}</span></div>
-        <div><b>Printed or embroidered</b><span>10 to 15 days</span></div>
-        <div><b>${collect ? 'Ready to collect' : 'Posted to you'}</b><span>${collect ? 'Front desk, 9B Meadow Close' : 'UK delivery'}</span></div>
-      </div>
+      <p class="lede">${lede}</p>
+      ${stage > 0 ? html`<div class="timeline">
+        ${step(1, status === 'request' ? 'Request sent' : 'Order paid', o.paidAt ? fmtDate(o.paidAt) : fmtDate(o.at))}
+        ${step(2, 'Printed or embroidered', stage === 2 ? 'In progress' : '10 to 15 days')}
+        ${step(3, collect ? 'Ready to collect' : 'Posted to you', stage >= 3 ? (stage === 4 ? (collect ? 'Collected' : 'Dispatched') : (collect ? 'Waiting at the front desk' : 'Being packed')) : (collect ? 'Front desk, 9B Meadow Close' : 'UK delivery'))}
+      </div>` : html`<div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:6px">
+        ${status === 'pending' && html`<${Link} class="btn btn-turf" to="checkout">Try the payment again<//>`}
+        <${Link} class="btn btn-line" to="shop">Back to the shop<//></div>`}
     </div></section>
     <div class="wrap conf-grid">
       <section class="summary" style="position:static" aria-labelledby="ow-h">
-        <h2 class="h-sm" id="ow-h">What you ordered</h2>
+        <div class="card-row"><h2 class="h-sm" id="ow-h">What you ordered</h2><span class="tag" style="border:1px solid var(--line-2)">${ORDER_STATUS_LABEL[status] || status}</span></div>
         <div>${o.lines.map(l => { const hit = VARIANT[l.vid]; return html`<div class="line">
           <div class="tile">${hit && html`<img src=${hit.v.images[0].src} alt="" width="600" height="600" style="inset:6%;width:88%;height:88%" />`}<span class="qbadge">${l.qty}</span></div>
           <div class="line-bd"><span class="line-name">${l.name}</span><span class="line-sub">${l.label} · ${l.size}</span></div>
           <span class="price" style="font-weight:600">${gbp(l.price * l.qty)}</span></div>`; })}</div>
         <div class="sum-rows">
           <div class="tot"><span>Subtotal</span><span class="price">${gbp(o.sub)}</span></div>
+          ${o.discount > 0 && html`<div class="tot"><span>Discount${o.promoCode ? ` (${o.promoCode})` : ''}</span><span class="price">−${gbp(o.discount)}</span></div>`}
           <div class="tot"><span>${collect ? 'Collection' : 'Delivery'}</span><span class="price">${o.delivery ? gbp(o.delivery) : 'Free'}</span></div>
           <div class="tot grand"><span class="label">Total</span><b class="price">${gbp(o.total)}</b></div>
         </div>
         <dl class="spec"><dt>Name</dt><dd>${o.first} ${o.last}</dd><dt>Email</dt><dd>${o.email}</dd>${o.phone && html`<dt>Phone</dt><dd>${o.phone}</dd>`}
-          ${o.address && html`<dt>Deliver to</dt><dd>${[o.address.line1, o.address.line2, o.address.town, o.address.postcode].filter(Boolean).join(', ')}</dd>`}
+          ${o.address && html`<dt>Deliver to</dt><dd>${[o.address.name, o.address.line1, o.address.line2, o.address.city, o.address.postcode].filter(Boolean).join(', ')}</dd>`}
           ${o.notes && html`<dt>Notes</dt><dd>${o.notes}</dd>`}</dl>
+        ${lookup === 'error' && local && html`<p class="small muted">Showing the copy saved on this device; we couldn't reach the order service just now.</p>`}
       </section>
-      <section style="display:grid;gap:16px" aria-labelledby="lg-h">
+      ${o.legacy ? html`<section style="display:grid;gap:16px" aria-labelledby="lg-h">
         <p class="eyebrow">Order it today</p>
         <h2 class="h-md" id="lg-h">Get this kit from the current store</h2>
-        <p class="muted">The new store isn't taking payments yet. Each link opens the same item on the current Transform Fitness store, where you can pick the size and pay.</p>
+        <p class="muted">Card payments aren't available here right now. Each link opens the same item on the current Transform Fitness store, where you can pick the size and pay.</p>
         <div class="legacy">${o.lines.map(l => html`<a href=${l.url} target="_blank" rel="noopener"><span><b>${l.name}</b> · ${l.label} · ${l.size}${l.qty > 1 ? ` × ${l.qty}` : ''}</span>${Icon('ext', 'ico-sm')}</a>`)}</div>
         <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:6px"><${Link} class="btn btn-ink" to="shop">Keep shopping<//><${Link} class="btn btn-line" to="orders">Your orders<//></div>
-      </section>
+      </section>` : html`<section style="display:grid;gap:16px" aria-labelledby="nx-h">
+        <p class="eyebrow">What happens next</p>
+        <h2 class="h-md" id="nx-h">${collect ? 'Collecting your kit' : 'Delivery'}</h2>
+        <p class="muted">${collect
+          ? `Every piece is printed or embroidered to order, which takes 10 to 15 days. We'll email ${o.email} when it's ready, and it'll be waiting at the front desk at ${GYM.address}. Bring your order number.`
+          : `Every piece is printed or embroidered to order, which takes 10 to 15 days. We'll email ${o.email} when it's posted.`}</p>
+        <p class="muted">Questions? Call ${GYM.phone} or email ${GYM.email} and quote <b style="color:var(--ink)">${o.ref}</b>.</p>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:6px"><${Link} class="btn btn-ink" to="shop">Keep shopping<//><${Link} class="btn btn-line" to="orders">Your orders<//></div>
+      </section>`}
     </div>
   </div>`;
 }
@@ -1197,7 +1344,7 @@ function Orders() {
   return html`<div class="wrap">
     <div class="page-hd"><p class="eyebrow">Kept on this device</p><h1 class="h-lg">Your orders</h1></div>
     ${s.orders.length ? html`<div class="orders">${s.orders.map(o => html`<${Link} class="order-row" to=${'order-' + o.ref}>
-      <div><div class="card-row" style="justify-content:flex-start;gap:14px"><b class="mono">${o.ref}</b><span class="muted small">${fmtDate(o.at)} · ${plural(o.lines.reduce((t, l) => t + l.qty, 0), 'item')} · ${o.method === 'collect' ? 'Collect' : 'Delivery'}</span></div>
+      <div><div class="card-row" style="justify-content:flex-start;gap:14px;flex-wrap:wrap"><b class="mono">${o.ref}</b><span class="tag" style="border:1px solid var(--line-2)">${ORDER_STATUS_LABEL[o.status || (o.legacy ? 'request' : 'pending')] || o.status}</span><span class="muted small">${fmtDate(o.at)} · ${plural(o.lines.reduce((t, l) => t + l.qty, 0), 'item')} · ${o.method === 'collect' ? 'Collect' : 'Delivery'}</span></div>
         <div class="thumbs-row">${o.lines.slice(0, 6).map(l => VARIANT[l.vid] && html`<${Tile} v=${VARIANT[l.vid].v} alt="" hover=${false} />`)}</div></div>
       <b class="price">${gbp(o.total)}</b><//>`)}</div>`
       : html`<div class="empty"><p class="muted">No orders on this device yet.</p><${Link} class="btn btn-ink" to="shop">Shop the kit<//></div>`}
@@ -1212,6 +1359,7 @@ function Saved() {
   </div>`;
 }
 function Help({ route }) {
+  const s = useS();
   useEffect(() => { if (route.anchor) { const el = document.getElementById('h-' + route.anchor); if (el) setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: 'start' }), 60); } }, [route.anchor]);
   const go = id => { const el = document.getElementById('h-' + id); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }); };
   const guides = PRODUCTS.filter(p => p.chart && p.chart.type !== 'dims');
@@ -1219,7 +1367,7 @@ function Help({ route }) {
     <div class="page-hd"><p class="eyebrow">Help</p><h1 class="h-lg">Ordering, sizing and collection</h1></div>
     <div class="help">
       <nav aria-label="Help topics">
-        ${[['made', 'Made to order'], ['collect', 'Collection and delivery'], ['sizing', 'Size guides'], ['contact', 'Contact'], ['preview', 'About this preview']].map(([id, l]) => html`<a href=${'#help-' + id} onClick=${e => { e.preventDefault(); replaceHash('help-' + id); go(id); }}>${l}</a>`)}
+        ${[['made', 'Made to order'], ['collect', 'Collection and delivery'], ['sizing', 'Size guides'], ['contact', 'Contact'], ['payments', 'Payments']].map(([id, l]) => html`<a href=${'#help-' + id} onClick=${e => { e.preventDefault(); replaceHash('help-' + id); go(id); }}>${l}</a>`)}
       </nav>
       <div>
         <section id="h-made"><h2 class="h-md">Made to order</h2>
@@ -1238,9 +1386,12 @@ function Help({ route }) {
             <span class="copyable-light"><${Copy} text=${GYM.phone} label="phone number" /></span>
             <span class="copyable-light"><${Copy} text=${GYM.email} label="email address" /></span>
           </div></section>
-        <section id="h-preview"><h2 class="h-md">About this preview</h2>
-          <p>This is a preview of the new Transform Fitness kit store. Products, prices, colours, sizes and garment details come from the current store. Checkout doesn't take payment or send orders to the gym yet.</p>
-          <p><a class="link" href=${GYM.legacyStore} target="_blank" rel="noopener">Open the current store ${Icon('ext', 'ico-sm')}</a></p></section>
+        <section id="h-payments"><h2 class="h-md">Payments</h2>
+          ${s.pay.stripe
+            ? html`<p>Card payments are processed by Stripe on a secure payment page. Apple Pay and Google Pay work there too, and there's a box for a promo code before you pay. We never see or store your card details.</p>
+              <p>Refunds go back to the card you paid with. Ask at the front desk or email us with your order reference.</p>`
+            : html`<p>Card payments aren't available at the moment. You can still send an order request; the confirmation page links each item to the current store so you can pay there.</p>
+              <p><a class="link" href=${GYM.legacyStore} target="_blank" rel="noopener">Open the current store ${Icon('ext', 'ico-sm')}</a></p>`}</section>
       </div>
     </div>
   </div>`;
@@ -1271,6 +1422,7 @@ function App() {
   useEffect(() => store.sub(setS), []);
   const route = useRoute();
   const rk = routeKey(route);
+  useEffect(() => { if (PAID_RETURN.cancelled) A.toast({ kind: 'plain', title: 'Payment cancelled. Your bag is still here.' }); }, []);
   useEffect(() => {
     if (route.anchor && route.name === 'home') {
       requestAnimationFrame(() => { const el = document.getElementById(route.anchor); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }); });

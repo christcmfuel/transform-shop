@@ -70,10 +70,13 @@ gym = {
 }
 cats = [{'slug': s, 'label': l, 'blurb': b} for s, l, b in CATEGORIES]
 data = {'categories': cats, 'products': products, 'gym': gym}
-with open('../catalog.js', 'w', encoding='utf-8', newline='
-') as f:
+compact = json.dumps(data, ensure_ascii=False, separators=(',', ':'))
+with open('../catalog.js', 'w', encoding='utf-8', newline='\n') as f:
     f.write('// Transform Fitness kit catalogue, built from the live DecoNetwork store.\n')
-    f.write('window.TF_CATALOG = ' + json.dumps(data, ensure_ascii=False, separators=(',', ':')) + ';\n')
+    f.write('window.TF_CATALOG = ' + compact + ';\n')
+# Plain-JSON twin: the Hub API prices every checkout from this file.
+with open('../catalog.json', 'w', encoding='utf-8', newline='\n') as f:
+    f.write(compact)
 
 # copy only the images the catalogue references
 os.makedirs('../img', exist_ok=True)
