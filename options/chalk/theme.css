@@ -1,0 +1,99 @@
+/* Chalk — light editorial option. Loads after /css/store.css and only overrides.
+   Single-theme by choice: chalk paper in every viewer setting. */
+:root,
+:root[data-theme="dark"],
+:root:not([data-theme="light"]) {
+  --chalk: #F4F2EC; --paper: #FFFFFF; --tile: #EAE7DE; --tile-hi: #F8F6F1;
+  --ink: #14170F; --ink-2: #4B4F44; --ink-3: #7C8075;
+  --line: #DDD9CE; --line-2: #C7C2B4;
+  --turf: #1F7A3A; --turf-ink: #F4F2EC; --turf-text: #1F7A3A; --turf-soft: #E3F0E4;
+  --danger: #B42318; --danger-soft: #FCEBE9;
+  --band: #14170F; --band-2: #1D211A; --band-3: #262B22; --band-ink: #F4F2EC; --band-ink-2: #A9AD9F; --band-line: #2E332A;
+  --shadow: 0 1px 2px rgba(20,23,15,.05), 0 12px 32px rgba(20,23,15,.08);
+  --shadow-lg: 0 24px 60px rgba(20,23,15,.18);
+  --garment: drop-shadow(0 18px 16px rgba(20,23,15,.16));
+  --overlay: rgba(20,23,15,.4);
+  --f-display: "Instrument Serif", "Iowan Old Style", Georgia, serif;
+  --f-stencil: "Instrument Serif", Georgia, serif;
+  --r: 14px;
+  color-scheme: light;
+}
+
+/* ---------- type: serif display, sentence case ---------- */
+.h-xl, .h-lg, .h-md, .h-sm, .buy-title, .cat-tile .nm b, .kit-total .big, .facts b, .print-tile .cap b, .ticker-track span, .step .n {
+  font-family: var(--f-display); font-weight: 400; text-transform: none; letter-spacing: -.01em;
+}
+.h-xl { font-size: clamp(50px, 7.6vw, 118px); line-height: .96 }
+.h-lg { font-size: clamp(38px, 5vw, 68px); line-height: 1 }
+.h-md { font-size: clamp(28px, 3.2vw, 40px); line-height: 1.05 }
+.h-sm { font-size: 24px; letter-spacing: 0 }
+.buy-title { font-size: clamp(38px, 4.4vw, 60px); line-height: .98 }
+.hero-h em { font-style: italic; color: var(--turf) }
+.eyebrow { font-family: var(--f-body); font-weight: 600; letter-spacing: .12em; font-size: 11.5px }
+.lede { font-size: clamp(17px, 1.5vw, 19px); line-height: 1.6 }
+.step .n { font-size: 56px; font-style: italic }
+.giant { font-style: italic; letter-spacing: -.03em; color: var(--turf) }
+
+/* ---------- controls: pills and soft corners ---------- */
+.btn { border-radius: 999px; text-transform: none; letter-spacing: 0; font-size: 14.5px; font-weight: 600; padding-inline: 26px }
+.btn-turf { background: var(--ink); color: var(--chalk) }
+.btn-turf:hover { box-shadow: 0 0 0 4px rgba(20,23,15,.14) }
+.btn-ink { background: var(--turf); color: var(--turf-ink) }
+.link { text-transform: none; letter-spacing: 0; font-size: 14.5px; font-weight: 600 }
+.chip, .qs, .sbtn, .select, .search-inline input, .field input, .field textarea, .finder input, .rcard, .co-sec, .summary, .note, .finder, .kit-total, .slot, .order-row, .legacy a { border-radius: 12px }
+.chip { border-radius: 999px }
+.tag { border-radius: 999px; padding: 6px 9px; text-transform: none; letter-spacing: .02em; font-family: var(--f-body); font-weight: 600; font-size: 11.5px }
+.tile { border-radius: 16px; background: var(--tile) }
+.card .tile { aspect-ratio: 1 / 1.15 }
+.thumbs button, .vbtn .tile, .line .tile, .mini .tile, .sres .tile { border-radius: 10px }
+.sw.on, .sw:hover { box-shadow: 0 0 0 2px var(--chalk), 0 0 0 3.5px var(--turf) }
+.badge-count { background: var(--turf); color: var(--turf-ink) }
+
+/* ---------- header ---------- */
+.announce { background: var(--turf); color: var(--turf-ink); font-family: var(--f-body); text-transform: none; letter-spacing: .02em; font-size: 12.5px }
+.announce b { color: var(--turf-ink); font-weight: 700 }
+.hdr { background: color-mix(in srgb, var(--chalk) 92%, transparent); border-bottom-color: var(--line) }
+.nav > a, .nav > button { text-transform: none; letter-spacing: 0; font-size: 14.5px; font-weight: 500 }
+.nav > a::after, .nav > button::after { background: var(--ink) }
+
+/* ---------- hero: light, photo framed on the right ---------- */
+.hero { background: var(--chalk); color: var(--ink) }
+.hero-media { inset: 0 0 0 54%; z-index: 0; border-radius: 0 0 0 48px; overflow: hidden }
+.hero-media img { object-position: 50% 68% } /* crops the Instagram chrome off the top of the photo */
+.hero-media::after { background: linear-gradient(90deg, var(--chalk) 0%, rgba(244,242,236,0) 22%) }
+.hero-in { min-height: clamp(520px, 44vw, 680px); position: relative; z-index: 1 }
+.hero-copy { max-width: 620px; padding-block: clamp(64px, 8vw, 110px) clamp(48px, 6vw, 80px) }
+.hero .eyebrow { color: var(--turf) }
+.hero .lede { color: var(--ink-2) }
+.hero .btn-line { border-color: var(--ink); color: var(--ink) }
+.hero-facts { color: var(--ink-3); font-family: var(--f-body); text-transform: none; letter-spacing: 0; font-size: 13px }
+.hero-facts span::before { background: var(--turf); clip-path: none; border-radius: 50% }
+@media (max-width: 760px) {
+  .hero-media { position: relative; inset: auto; border-radius: 0 0 28px 28px; aspect-ratio: 4 / 3 }
+  .hero-media::after { background: none }
+  .hero-copy { margin-top: 0; padding-top: 28px }
+}
+
+/* ---------- dark bands: flat ink, no rubber texture ---------- */
+.rubber { background: var(--band) }
+.band .eyebrow { color: #7BD48F }
+.band .chip { border-radius: 999px }
+.facts { background: var(--band-line) }
+.foot h4 { font-family: var(--f-body); text-transform: none; letter-spacing: 0; font-size: 13px; font-weight: 600 }
+
+/* ---------- gallery framed like a lookbook ---------- */
+.gallery .gal-item { border-radius: 18px; box-shadow: var(--shadow) }
+.gallery .gal-item figcaption { font-family: var(--f-body); text-transform: none; letter-spacing: 0; font-size: 12.5px }
+
+/* ---------- print tiles / categories ---------- */
+.print-tile { border-radius: 18px }
+.cat-tile .nm span { font-family: var(--f-body); text-transform: none }
+
+/* ---------- pdp ---------- */
+.assure .ico { color: var(--turf) }
+.acc summary { text-transform: none; letter-spacing: 0; font-size: 15px }
+.sbtn.on { background: var(--ink); color: var(--chalk) }
+.sbtn .fit { background: var(--turf); color: var(--turf-ink); border-radius: 999px }
+
+/* ---------- options switcher ---------- */
+.opt-back { position: fixed; left: 14px; bottom: calc(14px + env(safe-area-inset-bottom, 0px)); z-index: 60; background: var(--ink); color: var(--chalk); font: 600 12px/1 var(--f-body); padding: 10px 14px; border-radius: 999px; box-shadow: var(--shadow-lg) }

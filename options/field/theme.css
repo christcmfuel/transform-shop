@@ -1,0 +1,96 @@
+/* Field — olive, utilitarian option. Khaki paper, condensed type, dashed
+   frames and stamps; safety orange only for the small marks. Single theme. */
+:root,
+:root[data-theme="dark"],
+:root:not([data-theme="light"]) {
+  --chalk: #E6E2D3; --paper: #EFECE0; --tile: #D9D4C2; --tile-hi: #EBE7DA;
+  --ink: #22261A; --ink-2: #4F543F; --ink-3: #7E836C;
+  --line: #C9C4AF; --line-2: #ADA890;
+  --turf: #3E5A2B; --turf-ink: #F2EFE4; --turf-text: #3E5A2B; --turf-soft: #DCE3CC;
+  --danger: #B42318; --danger-soft: #F6E0DB;
+  --band: #2E3320; --band-2: #383E27; --band-3: #454C31; --band-ink: #F2EFE4; --band-ink-2: #B8BCA2; --band-line: #4E553A;
+  --orange: #E4572E;
+  --shadow: 0 1px 0 rgba(34,38,26,.12), 0 10px 24px rgba(34,38,26,.10);
+  --shadow-lg: 0 24px 60px rgba(34,38,26,.25);
+  --garment: drop-shadow(0 14px 12px rgba(34,38,26,.22));
+  --overlay: rgba(34,38,26,.5);
+  --f-display: "Barlow Condensed", "Arial Narrow", sans-serif;
+  --f-stencil: "Barlow Condensed", "Arial Narrow", sans-serif;
+  --f-body: "Barlow", "Helvetica Neue", Arial, sans-serif;
+  --r: 2px;
+  color-scheme: light;
+}
+body { font-size: 15.5px }
+
+/* graph paper on the light ground */
+body { background: var(--chalk); background-image:
+  repeating-linear-gradient(0deg, rgba(34,38,26,.05) 0 1px, transparent 1px 28px),
+  repeating-linear-gradient(90deg, rgba(34,38,26,.05) 0 1px, transparent 1px 28px); }
+.hdr { background: color-mix(in srgb, var(--chalk) 94%, transparent) }
+
+/* ---------- type ---------- */
+.h-xl { font-size: clamp(60px, 10vw, 156px); line-height: .84; font-weight: 800 }
+.h-lg { font-size: clamp(40px, 5.6vw, 80px); line-height: .88; font-weight: 800 }
+.h-md, .h-sm, .buy-title { font-weight: 800 }
+.hero-h em { color: var(--turf); display: inline }
+.eyebrow { color: var(--ink-2) }
+.eyebrow::before { content: "// "; color: var(--orange) }
+.band .eyebrow, .hero .eyebrow { color: var(--band-ink-2) }
+.hero .eyebrow { color: var(--ink-2) }
+.lede { font-weight: 500 }
+.label { font-family: var(--f-mono); font-weight: 500 }
+.giant { font-weight: 800; color: var(--band-ink); opacity: .12 }
+
+/* ---------- stamps, frames, dashes ---------- */
+.btn { text-transform: uppercase; font-family: var(--f-display); font-size: 17px; font-weight: 700; letter-spacing: .06em }
+.btn-turf { background: var(--ink); color: var(--chalk) }
+.btn-turf:hover { box-shadow: 0 0 0 4px rgba(34,38,26,.16) }
+.btn-ink { background: var(--turf); color: var(--turf-ink) }
+.btn-line { border-width: 2px; border-color: var(--ink); color: var(--ink) }
+.tile { background: var(--tile); outline: 1px dashed var(--line-2); outline-offset: -1px; border-radius: 0 }
+.card .tile { aspect-ratio: 1 / 1 }
+.card-tags .tag { background: transparent; border: 1.5px solid var(--ink); color: var(--ink); transform: rotate(-2deg); font-weight: 600; padding: 5px 7px }
+.card-name { font-family: var(--f-display); font-size: 20px; font-weight: 700; text-transform: uppercase; letter-spacing: .02em }
+.card-sub { font-family: var(--f-mono); font-size: 12px }
+.card-price { font-family: var(--f-mono) }
+.badge-count { background: var(--orange); color: #fff }
+.sw.on, .sw:hover { box-shadow: 0 0 0 2px var(--chalk), 0 0 0 3.5px var(--ink) }
+.chip.on, .sbtn.on { background: var(--ink); color: var(--chalk); border-color: var(--ink) }
+.announce { background: var(--ink); color: var(--chalk) }
+.announce b { color: var(--orange) }
+.nav > a, .nav > button { font-family: var(--f-display); font-size: 17px; letter-spacing: .06em }
+.nav > a::after, .nav > button::after { background: var(--orange) }
+.hero-facts span::before, .bullets li::before { background: var(--orange) }
+
+/* ---------- hero: split, framed photo, spec-sheet feel ---------- */
+.hero { background: transparent; color: var(--ink) }
+.hero-media { inset: 24px 24px 24px 52%; z-index: 0; outline: 2px solid var(--ink); outline-offset: 6px }
+.hero-media img { object-position: 50% 40% }
+.hero-media::after { background: none }
+.hero-in { min-height: clamp(520px, 44vw, 700px); position: relative; z-index: 1 }
+.hero .lede { color: var(--ink-2) }
+.hero .btn-line { border-color: var(--ink); color: var(--ink) }
+.hero-facts { color: var(--ink-2) }
+@media (max-width: 760px) {
+  .hero-media { position: relative; inset: auto; margin: 16px 16px 0; aspect-ratio: 4 / 3 }
+  .hero-copy { margin-top: 0; padding-top: 28px }
+}
+
+/* ---------- bands ---------- */
+.rubber { background: var(--band); background-image:
+  repeating-linear-gradient(0deg, rgba(242,239,228,.05) 0 1px, transparent 1px 28px),
+  repeating-linear-gradient(90deg, rgba(242,239,228,.05) 0 1px, transparent 1px 28px); }
+.slot, .kit-total { border-style: dashed; border-color: var(--band-line) }
+.band .chip.on { background: var(--orange); color: #fff; border-color: var(--orange) }
+.facts > div { border-top: 2px solid var(--orange) }
+
+/* ---------- gallery ---------- */
+.gal-item { border-radius: 0; outline: 1px dashed var(--line-2); outline-offset: 4px }
+.gal-item figcaption { background: linear-gradient(0deg, rgba(34,38,26,.75), rgba(34,38,26,0)) }
+
+/* ---------- pdp ---------- */
+.spec dt { color: var(--orange) }
+.acc summary { font-family: var(--f-display); font-size: 17px; letter-spacing: .06em }
+.sbtn .fit { background: var(--orange); color: #fff }
+
+.opt-back { position: fixed; left: 14px; bottom: calc(14px + env(safe-area-inset-bottom, 0px)); z-index: 60; background: var(--ink); color: var(--chalk); font: 700 14px/1 var(--f-display); letter-spacing: .08em; text-transform: uppercase; padding: 10px 14px; border: 1.5px dashed var(--chalk); outline: 1.5px solid var(--ink) }

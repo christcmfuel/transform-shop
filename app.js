@@ -5,6 +5,12 @@ const { html, render, useState, useEffect, useMemo, useRef, createContext, useCo
 
 // ---------------------------------------------------------------- catalogue
 const DATA = window.TF_CATALOG;
+// Design variants live under /options/<name>/ and share this file; they set
+// TF_ASSET_BASE so the catalogue's relative image paths resolve from the root,
+// and TF_SITE to override hero copy, media and a few optional sections.
+const ASSET = window.TF_ASSET_BASE ? String(window.TF_ASSET_BASE).replace(/[/]+$/, '') + '/' : '';
+const SITE = window.TF_SITE || {};
+if (ASSET) DATA.products.forEach(p => p.variants.forEach(v => v.images.forEach(im => { if (!/^([a-z]+:)?[/]/i.test(im.src)) im.src = ASSET + im.src; })));
 const PRODUCTS = DATA.products;
 const CATS = DATA.categories;
 const GYM = DATA.gym;
@@ -460,12 +466,14 @@ function MobileMenu() {
 // ---------------------------------------------------------------- home
 function Hero() {
   return html`<section class="hero" aria-labelledby="hero-h">
-    <div class="hero-media"><img src="brand/hero.webp" alt="Two members seen from behind in black Transform Fitness kit, the green triangle mark printed across their backs" width="1534" height="600" fetchpriority="high" /></div>
+    <div class="hero-media">${SITE.heroVideo
+      ? html`<video src=${ASSET + SITE.heroVideo} poster=${ASSET + (SITE.heroImage || 'brand/hero.webp')} autoplay muted loop playsinline aria-label=${SITE.heroAlt || 'Training at Transform Fitness'}></video>`
+      : html`<img src=${ASSET + (SITE.heroImage || 'brand/hero.webp')} alt=${SITE.heroAlt || 'Two members seen from behind in black Transform Fitness kit, the green triangle mark printed across their backs'} width="1534" height="600" fetchpriority="high" />`}</div>
     <div class="wrap hero-in">
       <div class="hero-copy">
-        <p class="eyebrow">Official kit · ${GYM.name}</p>
-        <h1 class="h-xl hero-h" id="hero-h">Wear the <em>mindset.</em></h1>
-        <p class="lede">Tees, hoodies, vests and bags carrying the Transform Fitness mark. Every piece is printed or embroidered to order, then collected free from the front desk in Plympton.</p>
+        <p class="eyebrow">${SITE.heroEyebrow || `Official kit · ${GYM.name}`}</p>
+        <h1 class="h-xl hero-h" id="hero-h">${SITE.heroTitle ? html`${SITE.heroTitle[0]} <em>${SITE.heroTitle[1]}</em>` : html`Wear the <em>mindset.</em>`}</h1>
+        <p class="lede">${SITE.heroLede || 'Tees, hoodies, vests and bags carrying the Transform Fitness mark. Every piece is printed or embroidered to order, then collected free from the front desk in Plympton.'}</p>
         <div class="hero-cta">
           <${Link} class="btn btn-turf" to="shop">Shop the kit ${Icon('arrowR')}<//>
           <${Link} class="btn btn-line" to="kit">Build a race kit<//>
@@ -619,8 +627,20 @@ function RecentRow({ exclude, title = 'Recently viewed' }) {
   return html`<section class="sec-tight wrap"><${SecHead} eyebrow="Pick up where you left off" title=${title} />
     <div class="grid">${list.map(sl => html`<${ProductCard} key=${sl} p=${BY_SLUG[sl]} />`)}</div></section>`;
 }
+// Real photos from the gym (only when a variant page supplies them).
+function Gallery() {
+  const g = SITE.gallery;
+  if (!g || !g.photos || !g.photos.length) return null;
+  return html`<section class="sec wrap gallery" aria-labelledby="gal-h">
+    <${SecHead} eyebrow=${g.eyebrow || 'From the floor'} title=${g.title || 'The People\u2019s Gym'} id="gal-h">${g.lede && html`<p class="lede" style="max-width:44ch">${g.lede}</p>`}<//>
+    <div class="gallery-grid">${g.photos.map((ph, i) => html`<figure class=${'gal-item' + (ph.span ? ' span-' + ph.span : '')} key=${i}>
+      <img src=${ASSET + ph.src} alt=${ph.alt || ''} loading="lazy" decoding="async" />
+      ${ph.caption && html`<figcaption>${ph.caption}</figcaption>`}
+    </figure>`)}</div>
+  </section>`;
+}
 function Home() {
-  return html`<${Hero} /><${Ticker} /><${CategoryRail} /><${Featured} /><${RaceKit} /><${PrintTiles} /><${About} /><${Steps} /><${RecentRow} />`;
+  return html`<${Hero} />${!SITE.noTicker && html`<${Ticker} />`}<${CategoryRail} /><${Featured} />${SITE.galleryFirst && html`<${Gallery} />`}<${RaceKit} /><${PrintTiles} />${!SITE.galleryFirst && html`<${Gallery} />`}<${About} /><${Steps} /><${RecentRow} />`;
 }
 
 // ---------------------------------------------------------------- footer

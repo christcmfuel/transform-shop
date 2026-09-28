@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Transform Fitness Kit · Design options</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0B0D0C">
+<link rel="icon" href="/favicon.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{--bg:#0B0D0C;--card:#141715;--line:#262A27;--ink:#EDF0EB;--ink-2:#A4ABA5;--ink-3:#747B75;--turf:#3BE35B;--turf-ink:#04200B;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 15px/1.55 Archivo,"Helvetica Neue",Arial,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1380px;margin-inline:auto;padding-inline:clamp(16px,4vw,44px)}
+header{padding-block:clamp(40px,6vw,88px) clamp(24px,3vw,40px);display:grid;gap:14px}
+.eyebrow{font:500 12px/1.2 "IBM Plex Mono",monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--turf)}
+h1{margin:0;font:900 clamp(44px,7vw,104px)/.9 "Big Shoulders Display",Impact,sans-serif;text-transform:uppercase;text-wrap:balance}
+.lede{color:var(--ink-2);max-width:60ch;font-size:17px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:22px;padding-bottom:clamp(56px,8vw,112px)}
+.opt{background:var(--card);border:1px solid var(--line);border-radius:4px;overflow:hidden;display:grid;grid-template-rows:auto 1fr auto;transition:border-color .2s,transform .2s}
+.opt:hover{border-color:var(--turf);transform:translateY(-2px)}
+.preview{position:relative;aspect-ratio:16/10;overflow:hidden;background:#000;border-bottom:1px solid var(--line)}
+.preview iframe{position:absolute;left:0;top:0;width:1280px;height:800px;border:0;transform:scale(var(--s));transform-origin:0 0;pointer-events:none}
+.preview::after{content:"";position:absolute;inset:0}
+.body{padding:18px 18px 8px;display:grid;gap:8px;align-content:start}
+.body h2{margin:0;font:800 30px/1 "Big Shoulders Display",Impact,sans-serif;text-transform:uppercase;display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.body h2 small{font:500 11px/1 "IBM Plex Mono",monospace;letter-spacing:.06em;color:var(--ink-3);text-transform:uppercase}
+.body p{margin:0;color:var(--ink-2);font-size:14px}
+.tags{display:flex;gap:6px;flex-wrap:wrap}
+.tag{font:500 10.5px/1 "IBM Plex Mono",monospace;letter-spacing:.06em;text-transform:uppercase;padding:5px 7px;border:1px solid var(--line);color:var(--ink-2);border-radius:2px}
+.actions{display:flex;gap:8px;padding:12px 18px 18px}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:0 18px;border-radius:2px;font:700 12px/1 Archivo,sans-serif;letter-spacing:.09em;text-transform:uppercase;border:1.5px solid transparent}
+.btn-turf{background:var(--turf);color:var(--turf-ink)}
+.btn-line{border-color:#3A403C;color:var(--ink)}
+.btn-line:hover{border-color:var(--ink)}
+.note{border-top:1px solid var(--line);padding-block:20px 36px;color:var(--ink-3);font:400 12.5px/1.6 "IBM Plex Mono",monospace}
+.note b{color:var(--ink-2);font-weight:500}
+@media (prefers-reduced-motion:reduce){.opt{transition:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <p class="eyebrow">shop.tcmfuel.com · design options</p>
+    <h1>Five ways to dress the kit store</h1>
+    <p class="lede">Same products, prices, bag and checkout in every one. Only the look changes. Open any option, use it like the real store, and say which one wins. Previews below are live and scaled down.</p>
+  </header>
+
+  <div class="grid" id="grid"></div>
+
+  <p class="note"><b>How they're built:</b> one shared app and catalogue; each option is a stylesheet and a small settings file. Mixing is easy (Chalk's type with People's photos, for example). None of these pages are indexed by Google.</p>
+</div>
+<script>
+const OPTIONS = [
+  { slug: '', name: 'Current', tag: 'live', pitch: 'The one that is live now. Dark, condensed type, product-first, ticker and rubber-floor bands.', tags: ['Dark + light mode', 'Condensed', 'Product-led'] },
+  { slug: 'chalk', name: 'Chalk', tag: 'A', pitch: 'Light and editorial. Serif headlines on warm chalk paper, the team photo framed like a lookbook, real photography up front.', tags: ['Light', 'Serif', 'Photo-led'] },
+  { slug: 'blackout', name: 'Blackout', tag: 'B', pitch: 'Dark and loud. Video from the gym floor, stencil headline from the wall sign, the race-kit band in solid green.', tags: ['Dark', 'Video hero', 'HYROX'] },
+  { slug: 'field', name: 'Field', tag: 'C', pitch: 'Olive and utilitarian. Graph paper, dashed frames, stamps and spec labels. Built around the olive tees and MOLLE packs.', tags: ['Khaki', 'Condensed', 'Kit-list'] },
+  { slug: 'people', name: 'People', tag: 'D', pitch: 'Warm and community-first. Members everywhere, soft corners, sentence-case type, Cosmo signing off in the footer.', tags: ['Warm', 'Rounded', 'Community'] },
+];
+const grid = document.getElementById('grid');
+for (const o of OPTIONS) {
+  const href = o.slug ? '/options/' + o.slug + '/' : '/';
+  const el = document.createElement('article');
+  el.className = 'opt';
+  el.innerHTML = `
+    <a class="preview" href="${href}" aria-label="Open the ${o.name} option"><iframe src="${href}" title="${o.name} preview" loading="lazy" tabindex="-1" aria-hidden="true"></iframe></a>
+    <div class="body"><h2>${o.name} <small>${o.tag}</small></h2><p>${o.pitch}</p><div class="tags">${o.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div></div>
+    <div class="actions"><a class="btn btn-turf" href="${href}">Open</a><a class="btn btn-line" href="${href}#shop">Shop page</a><a class="btn btn-line" href="${href}#p-classic-hoodie">Product page</a></div>`;
+  grid.appendChild(el);
+}
+// scale each live preview to its card width
+const fit = () => document.querySelectorAll('.preview').forEach(p => p.style.setProperty('--s', (p.clientWidth / 1280).toFixed(4)));
+fit(); addEventListener('resize', fit);
+</script>
+</body>
+</html>

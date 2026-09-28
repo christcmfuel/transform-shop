@@ -1,0 +1,100 @@
+/* People — warm, community-first option. Rounded, soft, photo-led; the brand
+   green kept bright on warm white. Single light theme by choice. */
+:root,
+:root[data-theme="dark"],
+:root:not([data-theme="light"]) {
+  --chalk: #FBF7F2; --paper: #FFFFFF; --tile: #F1EBE2; --tile-hi: #FBF8F3;
+  --ink: #2B2A28; --ink-2: #5E5B56; --ink-3: #8C8882;
+  --line: #EAE3D9; --line-2: #D6CDC0;
+  --turf: #2FD34F; --turf-ink: #0A2E14; --turf-text: #1E9C3A; --turf-soft: #E2F7E7;
+  --danger: #C0392B; --danger-soft: #FBE5E1;
+  --band: #1F2A22; --band-2: #28352B; --band-3: #334335; --band-ink: #F6F3EC; --band-ink-2: #B9C2B8; --band-line: #3A4A3D;
+  --shadow: 0 2px 4px rgba(43,42,40,.04), 0 14px 34px rgba(43,42,40,.10);
+  --shadow-lg: 0 30px 70px rgba(43,42,40,.2);
+  --garment: drop-shadow(0 16px 16px rgba(43,42,40,.16));
+  --overlay: rgba(43,42,40,.4);
+  --f-display: "Outfit", "Helvetica Neue", Arial, sans-serif;
+  --f-stencil: "Outfit", "Helvetica Neue", Arial, sans-serif;
+  --r: 20px;
+  color-scheme: light;
+}
+
+/* ---------- type: friendly geometric, sentence case, tight ---------- */
+.h-xl, .h-lg, .h-md, .h-sm, .buy-title, .cat-tile .nm b, .kit-total .big, .facts b, .print-tile .cap b, .step .n {
+  text-transform: none; letter-spacing: -.03em; font-weight: 800;
+}
+.h-xl { font-size: clamp(46px, 7vw, 108px); line-height: .98 }
+.h-lg { font-size: clamp(34px, 4.6vw, 62px); line-height: 1.02 }
+.h-md { font-size: clamp(26px, 3vw, 38px); line-height: 1.08 }
+.h-sm { font-size: 21px }
+.buy-title { font-size: clamp(36px, 4.2vw, 56px); line-height: 1 }
+.hero-h em { color: var(--turf); display: inline }
+.eyebrow { font-family: var(--f-body); text-transform: none; letter-spacing: 0; font-weight: 600; font-size: 14px; color: var(--turf-text) }
+.hero .eyebrow, .band .eyebrow { color: var(--turf) }
+.lede { line-height: 1.6 }
+.ticker-track span { text-transform: none; letter-spacing: 0; font-weight: 700 }
+.giant { font-weight: 800; letter-spacing: -.05em; text-transform: none; color: var(--turf) }
+
+/* ---------- controls: pills and big radii ---------- */
+.btn { border-radius: 999px; text-transform: none; letter-spacing: 0; font-size: 15px; font-weight: 700; min-height: 52px; padding-inline: 26px }
+.btn-turf { background: var(--turf); color: var(--turf-ink) }
+.btn-ink { background: var(--ink); color: var(--chalk) }
+.btn-line { border-width: 2px }
+.link { text-transform: none; letter-spacing: 0; font-size: 15px; font-weight: 700 }
+.chip, .tag, .pill { border-radius: 999px }
+.tag { text-transform: none; letter-spacing: 0; font-family: var(--f-body); font-weight: 700; font-size: 12px; padding: 7px 10px }
+.card-tags .tag { background: var(--turf); color: var(--turf-ink) }
+.tile { border-radius: 24px; background: var(--tile) }
+.card .tile { aspect-ratio: 1 / 1.1 }
+.thumbs button, .vbtn .tile, .line .tile, .mini .tile, .sres .tile { border-radius: 14px }
+.qs, .sbtn, .select, .search-inline input, .field input, .field textarea, .finder input, .rcard, .co-sec, .summary, .note, .finder, .kit-total, .slot, .order-row, .legacy a, .modal, .print-tile, .gal-item { border-radius: 18px }
+.drawer { border-radius: 24px 0 0 24px }
+.drawer.left { border-radius: 0 24px 24px 0 }
+.sbtn.on { background: var(--ink); color: var(--chalk); border-color: var(--ink) }
+.sbtn .fit { border-radius: 999px }
+.badge-count { background: var(--turf); color: var(--turf-ink) }
+.save-btn.on { color: var(--turf-text) }
+.sw.on, .sw:hover { box-shadow: 0 0 0 2px var(--chalk), 0 0 0 3.5px var(--turf-text) }
+
+/* ---------- header ---------- */
+.announce { background: var(--turf); color: var(--turf-ink); font-family: var(--f-body); text-transform: none; letter-spacing: 0; font-size: 13px; font-weight: 600 }
+.announce b { color: var(--turf-ink) }
+.hdr { background: color-mix(in srgb, var(--chalk) 90%, transparent) }
+.nav > a, .nav > button { text-transform: none; letter-spacing: 0; font-size: 15px; font-weight: 600 }
+.nav > a::after, .nav > button::after { background: var(--turf); height: 3px; border-radius: 3px }
+
+/* ---------- hero: warm full-bleed photo, copy on a rounded card ---------- */
+.hero { background: var(--ink); color: var(--band-ink) }
+.hero-media { inset: 0 }
+.hero-media img { object-position: 50% 55% }
+.hero-media::after { background: linear-gradient(90deg, rgba(31,42,34,.85) 0%, rgba(31,42,34,.55) 42%, rgba(31,42,34,.15) 75%), linear-gradient(0deg, rgba(31,42,34,.9), rgba(31,42,34,0) 40%) }
+.hero-in { min-height: clamp(560px, 50vw, 720px) }
+.hero-copy { max-width: 640px }
+.hero .lede { color: #DCE3DA }
+.hero-facts { text-transform: none; letter-spacing: 0; font-family: var(--f-body); font-weight: 600; color: #DCE3DA }
+.hero-facts span::before { border-radius: 50%; clip-path: none; background: var(--turf) }
+@media (max-width: 760px) {
+  .hero-media { position: absolute; inset: 0; aspect-ratio: auto }
+  .hero-in { min-height: 80vh; display: flex; align-items: flex-end }
+  .hero-copy { margin-top: 0; padding-block: 0 40px }
+}
+
+/* ---------- bands: deep green, no rubber ---------- */
+.rubber { background: var(--band) }
+.band .chip { border-radius: 999px }
+.facts { border-radius: 18px; overflow: hidden }
+.foot h4 { font-family: var(--f-body); text-transform: none; letter-spacing: 0; font-size: 14px; font-weight: 700 }
+
+/* ---------- gallery captions warm ---------- */
+.gallery .gal-item { box-shadow: var(--shadow) }
+.gallery .gal-item figcaption { font-family: var(--f-body); text-transform: none; letter-spacing: 0; font-size: 13px; font-weight: 600 }
+
+/* ---------- footer: Cosmo signs off ---------- */
+.foot-base::before { content: "Approved by Cosmo, head of morale"; display: block; width: 100%; padding: 12px 16px; margin-bottom: 8px; border-radius: 14px; background: var(--band-2) url(/brand/photos/tf-cosmo.webp) right 12px center / 44px 44px no-repeat; color: var(--band-ink); font-weight: 600 }
+
+/* ---------- pdp ---------- */
+.acc summary { text-transform: none; letter-spacing: 0; font-size: 15px; font-weight: 700 }
+.assure .ico { color: var(--turf-text) }
+.print-tile .cap b { text-transform: none; letter-spacing: -.02em }
+
+.opt-back { position: fixed; left: 14px; bottom: calc(14px + env(safe-area-inset-bottom, 0px)); z-index: 60; background: var(--ink); color: var(--chalk); font: 700 13px/1 var(--f-body); padding: 11px 16px; border-radius: 999px; box-shadow: var(--shadow-lg) }
